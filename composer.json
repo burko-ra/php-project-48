@@ -1,0 +1,17 @@
+{
+    "name": "hexlet/code",
+    "description": "Educational Project 2: Difference Calculator",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hexlet\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Roman Burko",
+            "email": "redstone.kem@gmail.com"
+        }
+    ],
+    "require": {}
+}
