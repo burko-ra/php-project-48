@@ -5,7 +5,10 @@
     "autoload": {
         "psr-4": {
             "Hexlet\\Code\\": "src/"
-        }
+        },
+        "files": [
+            "vendor/docopt/docopt/src/docopt.php"
+        ]
     },
     "authors": [
         {
@@ -13,5 +16,7 @@
             "email": "redstone.kem@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
 }
