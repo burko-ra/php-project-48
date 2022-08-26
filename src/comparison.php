@@ -25,7 +25,8 @@ function getFullPath($path)
     return $addedPart . $path;
 }
 
-function run() {
+function run()
+{
     $args = Docopt::handle(DOC);
     $pathToFile1 = getFullPath($args['<firstFile>']);
     $pathToFile2 = getFullPath($args['<secondFile>']);
