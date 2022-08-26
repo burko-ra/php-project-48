@@ -20,5 +20,12 @@ Options:
 DOC;
 
 $args = Docopt::handle($doc);
-foreach ($args as $k=>$v)
-    echo $k.': '.json_encode($v).PHP_EOL;
+$arg1 = $args['<firstFile>'];
+$pathToFile1 = ($arg1[0] === '/' ? '' : __DIR__ . "/") . $arg1;
+//var_dump($pathToFile1);
+$arg2 = $args['<secondFile>'];
+$pathToFile2 = ($arg2[0] === '/' ? '' : __DIR__ . "/") . $arg2;
+//var_dump($pathToFile2);
+$format = $args['--format'];
+
+Gendiff\Comparison\gendiff($pathToFile1, $pathToFile2, $format);
