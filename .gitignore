@@ -2,4 +2,3 @@
 /temp/
 /coverage/
 .phpunit.result.cache
-phpunit.xml
