@@ -7,7 +7,8 @@
             "Hexlet\\Code\\": "src/"
         },
         "files": [
-            "vendor/docopt/docopt/src/docopt.php"
+            "vendor/docopt/docopt/src/docopt.php",
+            "src/comparison.php"
         ]
     },
     "authors": [
@@ -18,5 +19,8 @@
     ],
     "require": {
         "docopt/docopt": "^1.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
     }
 }
