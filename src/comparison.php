@@ -3,6 +3,8 @@
 namespace Gendiff\Comparison;
 
 use Docopt;
+use function Gendiff\Parsers\parseJson;
+use function Gendiff\Parsers\parseYaml;
 
 const DOC = <<<D
 Generate diff
@@ -39,11 +41,24 @@ function readFile($path)
     return file_get_contents($path, true);
 }
 
-function prepareFileToComparison($file)
+function parse($file, $extension)
 {
-    $decoded = json_decode($file, true);
-    return array_reduce(array_keys($decoded), function ($acc, $key) use ($decoded) {
-        $value = $decoded[$key];
+    if ($extension === 'json') {
+        return parseJson($file);
+    }
+    if ($extension === 'yml' || $extension === 'yaml') {
+        return parseYaml($file);
+    }
+    throw new \Exception("Unknown extension: '{$extension}'");
+}
+
+function prepareFileToComparison($pathToFile)
+{
+    $file = readFile($pathToFile);
+    $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
+    $parsed = parse($file, $extension);
+    return array_reduce(array_keys($parsed), function ($acc, $key) use ($parsed) {
+        $value = $parsed[$key];
         $stringValue = makeStringFromValue($value);
         return array_merge($acc, [$key => $stringValue]);
     }, []);
@@ -82,10 +97,9 @@ function compare($file1, $file2)
 
 function gendiff($pathToFile1, $pathToFile2, $format)
 {
-    $sourceFile1 = readFile($pathToFile1);
-    $sourceFile2 = readFile($pathToFile2);
-    $file1 = prepareFileToComparison($sourceFile1);
-    $file2 = prepareFileToComparison($sourceFile2);
+    
+    $file1 = prepareFileToComparison($pathToFile1);
+    $file2 = prepareFileToComparison($pathToFile2);
     $compared = compare($file1, $file2);
     print_r("{\n" . implode("\n", $compared) . "\n}\n");
 }
