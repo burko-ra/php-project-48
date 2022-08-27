@@ -3,6 +3,7 @@
 namespace Gendiff\Comparison;
 
 use Docopt;
+
 use function Gendiff\Parsers\parseJson;
 use function Gendiff\Parsers\parseYaml;
 
@@ -97,7 +98,6 @@ function compare($file1, $file2)
 
 function gendiff($pathToFile1, $pathToFile2, $format)
 {
-    
     $file1 = prepareFileToComparison($pathToFile1);
     $file2 = prepareFileToComparison($pathToFile2);
     $compared = compare($file1, $file2);
