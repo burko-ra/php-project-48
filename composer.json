@@ -21,7 +21,8 @@
     ],
     "require": {
         "docopt/docopt": "^1.0",
-        "symfony/yaml": "^v5.4"
+        "symfony/deprecation-contracts": "^2.1",
+        "symfony/yaml": "^5.3"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*",
