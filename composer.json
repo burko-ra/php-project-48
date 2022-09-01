@@ -10,7 +10,8 @@
             "vendor/docopt/docopt/src/docopt.php",
             "vendor/symfony/yaml/Yaml.php",
             "src/comparison.php",
-            "src/Parsers.php"
+            "src/Parsers.php",
+            "src/Cli.php"
         ]
     },
     "authors": [

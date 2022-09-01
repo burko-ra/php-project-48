@@ -5,7 +5,7 @@ namespace Gendiff\Tests;
 use PHPUnit\Framework\TestCase;
 
 use function Gendiff\Comparison\gendiff;
-use function Gendiff\Comparison\getFullPath;
+use function Gendiff\Cli\getFullPath;
 
 class ComparisonTest extends TestCase
 {
