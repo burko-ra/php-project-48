@@ -115,11 +115,11 @@ function toString($var)
 function stringifyDiff($diff)
 {
     $iter = function ($currentValue, $depth) use (&$iter) {
-        if (!is_array($currentValue['value'])) {
-            return $currentValue['value'];
+        $children = $currentValue['value'];
+        if (!is_array($children)) {
+            return $children;
         }
 
-        $children = $currentValue['value'];
         $indent = str_repeat('    ', $depth - 1);
         $lines = array_map(function ($item) use ($iter, $indent, $depth) {
             $value = $iter($item, $depth + 1);
