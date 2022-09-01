@@ -11,9 +11,9 @@ class ComparisonTest extends TestCase
 {
     public function testGendiffFlatJson(): void
     {
-        $file1 = 'tests/fixtures/flat1.json';
-        $file2 = 'tests/fixtures/flat2.json';
-        $fileResult = 'tests/fixtures/gendiffFlatJson';
+        $file1 = 'tests/fixtures/nested1.json';
+        $file2 = 'tests/fixtures/nested2.json';
+        $fileResult = 'tests/fixtures/gendiffNested';
 
         $result = file_get_contents(getFullPath($fileResult), true);
 
@@ -24,9 +24,9 @@ class ComparisonTest extends TestCase
 
     public function testGendiffFlatYaml(): void
     {
-        $file3 = 'tests/fixtures/flat1.yml';
-        $file4 = 'tests/fixtures/flat2.yaml';
-        $fileResult = 'tests/fixtures/gendiffFlatJson';
+        $file3 = 'tests/fixtures/nested1.yml';
+        $file4 = 'tests/fixtures/nested2.yaml';
+        $fileResult = 'tests/fixtures/gendiffNested';
 
         $result = file_get_contents(getFullPath($fileResult), true);
 
