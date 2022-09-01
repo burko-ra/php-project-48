@@ -6,20 +6,20 @@ use Docopt;
 
 use function Gendiff\Comparison\gendiff;
 
-const DOC = <<<D
+const DOC = <<<EOF
 Generate diff
 
 Usage:
   gendiff (-h|--help)
   gendiff (-v|--version)
   gendiff [--format <fmt>] <firstFile> <secondFile>
-
+S
 Options:
   -h --help                     Show this screen
   -v --version                  Show version
   --format <fmt>                Report format [default: stylish]
 
-D;
+EOF;
 
 function getFullPath($path)
 {

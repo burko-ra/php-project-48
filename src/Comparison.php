@@ -105,7 +105,7 @@ function toString($var)
 
         $lines = array_map(function ($item) use ($iter) {
             return $iter($item);
-        } , $value);
+        }, $value);
         return "[" . implode(", ", $lines) . "]";
     };
 
@@ -125,7 +125,7 @@ function stringifyDiff($diff)
             $value = $iter($item, $depth + 1);
             $spaceBeforeValue = empty($value) ? "" : " ";
             return "{$indent}  {$item['sign']} {$item['key']}:{$spaceBeforeValue}{$value}";
-        } , $children);
+        }, $children);
 
         return "{\n" . implode("\n", $lines) . "\n" . $indent . "}";
     };
