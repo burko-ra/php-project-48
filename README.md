@@ -9,3 +9,9 @@
 
 ### Compare two flat .yaml files:
 <a href="https://asciinema.org/a/517439" target="_blank"><img src="https://asciinema.org/a/517439.svg" /></a>
+
+### Compare two nested .json files:
+<a href="https://asciinema.org/a/518290" target="_blank"><img src="https://asciinema.org/a/518290.svg" /></a>
+
+### Compare two nested .yaml files:
+<a href="https://asciinema.org/a/518292" target="_blank"><img src="https://asciinema.org/a/518292.svg" /></a>
