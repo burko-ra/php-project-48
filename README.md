@@ -4,14 +4,5 @@
 <a href="https://codeclimate.com/github/burko-ra/php-project-48/maintainability"><img src="https://api.codeclimate.com/v1/badges/bc6e9a51f6c1b10f0d3c/maintainability" /></a>
 <a href="https://codeclimate.com/github/burko-ra/php-project-48/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bc6e9a51f6c1b10f0d3c/test_coverage" /></a>
 
-### Compare two flat .json files:
-<a href="https://asciinema.org/a/517438" target="_blank"><img src="https://asciinema.org/a/517438.svg" /></a>
-
-### Compare two flat .yaml files:
-<a href="https://asciinema.org/a/517439" target="_blank"><img src="https://asciinema.org/a/517439.svg" /></a>
-
-### Compare two nested .json files:
-<a href="https://asciinema.org/a/518290" target="_blank"><img src="https://asciinema.org/a/518290.svg" /></a>
-
-### Compare two nested .yaml files:
-<a href="https://asciinema.org/a/518292" target="_blank"><img src="https://asciinema.org/a/518292.svg" /></a>
+### Example:
+<a href="https://asciinema.org/a/518545" target="_blank"><img src="https://asciinema.org/a/518545.svg" /></a>
