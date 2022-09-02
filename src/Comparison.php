@@ -41,7 +41,16 @@ function gendiff($pathToFile1, $pathToFile2, $format)
     $file1 = prepareFileToComparison($pathToFile1);
     $file2 = prepareFileToComparison($pathToFile2);
     $diff = makeDiff($file1, $file2);
-    $diffToPrint = formatDiffStylish($diff);
+    switch ($format) {
+        case 'stylish':
+            $diffToPrint = formatDiffStylish($diff);
+            break;
+        case 'plain':
+            $diffToPrint = formatDiffPlain($diff);
+            break;
+        default:
+            throw new \Exception("Unknown format: '{$format}'");
+    }
     print $diffToPrint;
 }
 
@@ -168,4 +177,41 @@ function formatDiffStylish($diff)
     };
 
     return $iter($diff, 'value1', 1) . "\n";
+}
+
+function toStringPlain($value)
+{
+    return is_null($value) ? "null" : var_export($value, true);
+}
+
+function formatDiffPlain($diff)
+{
+    $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
+        $property = $currentPath . $currentValue['key'];
+        $difference = $currentValue['diff'];
+
+        $value1 = is_array($currentValue['value1']) ? "[complex value]" : toStringPlain($currentValue['value1']);
+        if ($difference === 'added') {
+            return array_merge($acc, ["Property '{$property}' was added with value: {$value1}"]);
+        }
+
+        if ($difference === 'removed') {
+            return array_merge($acc, ["Property '{$property}' was removed"]);
+        }
+
+        if ($difference === 'updated') {
+            $value2 = is_array($currentValue['value2']) ? "[complex value]" : toStringPlain($currentValue['value2']);
+            return array_merge($acc, ["Property '{$property}' was updated. From {$value1} to {$value2}"]);
+        }
+
+        if ($difference === 'changed') {
+            $children = $currentValue['value1'];
+            $newPath = ($depth === 1) ? $property : "{$property}.";
+            return array_reduce($children, fn($newAcc, $item) => $iter($item, $newPath, $depth + 1, $newAcc), $acc);
+        }
+
+        return $acc;
+    };
+
+    return implode("\n", $iter($diff, '', 1, [])) . "\n";
 }
