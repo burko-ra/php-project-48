@@ -4,14 +4,7 @@ namespace Gendiff\Comparison;
 
 use function Gendiff\Parsers\parseJson;
 use function Gendiff\Parsers\parseYaml;
-
-const OPERATION_SIGNS = [
-    'added' => '+',
-    'removed' => '-',
-    'unchanged' => ' ',
-    'changed' => ' ',
-    'updated' => ['-', '+']
-];
+use function Gendiff\Formatters\formatDiff;
 
 function readFile($path)
 {
@@ -41,17 +34,8 @@ function gendiff($pathToFile1, $pathToFile2, $format)
     $file1 = prepareFileToComparison($pathToFile1);
     $file2 = prepareFileToComparison($pathToFile2);
     $diff = makeDiff($file1, $file2);
-    switch ($format) {
-        case 'stylish':
-            $diffToPrint = formatDiffStylish($diff);
-            break;
-        case 'plain':
-            $diffToPrint = formatDiffPlain($diff);
-            break;
-        default:
-            throw new \Exception("Unknown format: '{$format}'");
-    }
-    print $diffToPrint;
+    $formattedDiff = formatDiff($diff, $format);
+    print $formattedDiff;
 }
 
 function isAssociativeArray($array)
@@ -90,6 +74,7 @@ function makeStructureRec($key, $value1, $value2 = null, $diff = 'unchanged')
     $result2 = isAssociativeArray($value2) ?
         array_map(fn($newKey, $newValue) => makeStructureRec($newKey, $newValue), array_keys($value2), $value2) :
         stringifyIfIndexArray($value2);
+
     return ['key' => $key, 'value1' => $result1, 'value2' => $result2, 'diff' => $diff];
 }
 
@@ -133,85 +118,4 @@ function makeDiff($file1, $file2)
     };
 
     return makeStructureIter('', $iter($file1, $file2));
-}
-
-function toStringStylish($value)
-{
-    return is_null($value) ? "null" : trim(var_export($value, true), "'");
-}
-
-function formatDiffStylish($diff)
-{
-    $iter = function ($currentValue, $typeOfValue, $depth) use (&$iter) {
-        $children = $currentValue[$typeOfValue];
-        if (!is_array($children)) {
-            return toStringStylish($children);
-        }
-
-        $indent = str_repeat('    ', $depth - 1);
-
-        $callback = function ($acc, $item) use ($iter, $indent, $depth) {
-            $key = $item['key'];
-            $difference = $item['diff'];
-
-            $value1 = $iter($item, 'value1', $depth + 1);
-            $spaceBeforeValue1 = empty($value1) ? "" : " ";
-
-            if ($difference !== 'updated') {
-                $sign = OPERATION_SIGNS[$difference];
-                return [...$acc, "{$indent}  {$sign} {$key}:{$spaceBeforeValue1}{$value1}"];
-            }
-
-            $value2 = $iter($item, 'value2', $depth + 1);
-            $spaceBeforeValue2 = empty($value2) ? "" : " ";
-            [$sign1, $sign2] = OPERATION_SIGNS[$difference];
-            return [
-                ...$acc,
-                "{$indent}  {$sign1} {$key}:{$spaceBeforeValue1}{$value1}",
-                "{$indent}  {$sign2} {$key}:{$spaceBeforeValue2}{$value2}"
-            ];
-        };
-
-        $lines = array_reduce($children, $callback, []);
-        return "{\n" . implode("\n", $lines) . "\n" . $indent . "}";
-    };
-
-    return $iter($diff, 'value1', 1) . "\n";
-}
-
-function toStringPlain($value)
-{
-    return is_null($value) ? "null" : var_export($value, true);
-}
-
-function formatDiffPlain($diff)
-{
-    $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
-        $property = $currentPath . $currentValue['key'];
-        $difference = $currentValue['diff'];
-
-        $value1 = is_array($currentValue['value1']) ? "[complex value]" : toStringPlain($currentValue['value1']);
-        if ($difference === 'added') {
-            return array_merge($acc, ["Property '{$property}' was added with value: {$value1}"]);
-        }
-
-        if ($difference === 'removed') {
-            return array_merge($acc, ["Property '{$property}' was removed"]);
-        }
-
-        if ($difference === 'updated') {
-            $value2 = is_array($currentValue['value2']) ? "[complex value]" : toStringPlain($currentValue['value2']);
-            return array_merge($acc, ["Property '{$property}' was updated. From {$value1} to {$value2}"]);
-        }
-
-        if ($difference === 'changed') {
-            $children = $currentValue['value1'];
-            $newPath = ($depth === 1) ? $property : "{$property}.";
-            return array_reduce($children, fn($newAcc, $item) => $iter($item, $newPath, $depth + 1, $newAcc), $acc);
-        }
-
-        return $acc;
-    };
-
-    return implode("\n", $iter($diff, '', 1, [])) . "\n";
 }
