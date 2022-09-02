@@ -117,7 +117,7 @@ function makeDiff($file1, $file2)
                 return makeStructureRec($key, $value1, $value2, 'updated');
             }
 
-            return makeStructureIter($key, $iter($value1, $value2), null,'changed');
+            return makeStructureIter($key, $iter($value1, $value2), null, 'changed');
         };
 
         return array_map($callback, $keys);
@@ -165,7 +165,6 @@ function formatDiffStylish($diff)
 
         $lines = array_reduce($children, $callback, []);
         return "{\n" . implode("\n", $lines) . "\n" . $indent . "}";
-
     };
 
     return $iter($diff, 'value1', 1) . "\n";
