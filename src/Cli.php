@@ -33,5 +33,5 @@ function run()
     $pathToFile1 = getFullPath($args['<firstFile>']);
     $pathToFile2 = getFullPath($args['<secondFile>']);
     $format = $args['--format'];
-    gendiff($pathToFile1, $pathToFile2, $format);
+    print_r(gendiff($pathToFile1, $pathToFile2, $format));
 }

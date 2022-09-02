@@ -29,13 +29,9 @@ function prepareFileToComparison($pathToFile)
     return parse($file, $extension);
 }
 
-function gendiff($pathToFile1, $pathToFile2, $format)
+function makeStructureIter($key, $value1, $value2 = null, $diff = 'changed')
 {
-    $file1 = prepareFileToComparison($pathToFile1);
-    $file2 = prepareFileToComparison($pathToFile2);
-    $diff = makeDiff($file1, $file2);
-    $formattedDiff = formatDiff($diff, $format);
-    print $formattedDiff;
+    return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'diff' => $diff];
 }
 
 function isAssociativeArray($array)
@@ -78,11 +74,6 @@ function makeStructureRec($key, $value1, $value2 = null, $diff = 'unchanged')
     return ['key' => $key, 'value1' => $result1, 'value2' => $result2, 'diff' => $diff];
 }
 
-function makeStructureIter($key, $value1, $value2 = null, $diff = 'changed')
-{
-    return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'diff' => $diff];
-}
-
 function makeDiff($file1, $file2)
 {
     $iter = function ($file1, $file2) use (&$iter) {
@@ -111,11 +102,19 @@ function makeDiff($file1, $file2)
                 return makeStructureRec($key, $value1, $value2, 'updated');
             }
 
-            return makeStructureIter($key, $iter($value1, $value2), null, 'changed');
+            return makeStructureIter($key, $iter($value1, $value2));
         };
 
         return array_map($callback, $keys);
     };
 
     return makeStructureIter('', $iter($file1, $file2));
+}
+
+function gendiff($pathToFile1, $pathToFile2, $format = 'stylish')
+{
+    $file1 = prepareFileToComparison($pathToFile1);
+    $file2 = prepareFileToComparison($pathToFile2);
+    $diff = makeDiff($file1, $file2);
+    return formatDiff($diff, $format);
 }
