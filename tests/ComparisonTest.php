@@ -33,4 +33,16 @@ class ComparisonTest extends TestCase
         $this->expectOutputString($result);
         gendiff($file3, $file4, 'stylish');
     }
+
+    public function testGendiffNestedPlain(): void
+    {
+        $file3 = 'tests/fixtures/nested1.json';
+        $file4 = 'tests/fixtures/nested2.yaml';
+        $fileResult = 'tests/fixtures/gendiffNestedPlain';
+
+        $result = file_get_contents(getFullPath($fileResult), true);
+
+        $this->expectOutputString($result);
+        gendiff($file3, $file4, 'plain');
+    }
 }
