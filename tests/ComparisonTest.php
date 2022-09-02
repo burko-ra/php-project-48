@@ -9,7 +9,7 @@ use function Gendiff\Cli\getFullPath;
 
 class ComparisonTest extends TestCase
 {
-    public function testGendiffFlatJson(): void
+    public function testGendiffNestedJson(): void
     {
         $file1 = 'tests/fixtures/nested1.json';
         $file2 = 'tests/fixtures/nested2.json';
@@ -22,7 +22,7 @@ class ComparisonTest extends TestCase
         gendiff($file1, $file2, 'stylish');
     }
 
-    public function testGendiffFlatYaml(): void
+    public function testGendiffNestedYaml(): void
     {
         $file3 = 'tests/fixtures/nested1.yml';
         $file4 = 'tests/fixtures/nested2.yaml';
