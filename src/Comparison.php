@@ -88,7 +88,7 @@ function makeDiff($file1, $file2)
             }
 
             if (!isAssociativeArray($value1) || !isAssociativeArray($value2)) {
-                return makeStructureRec($key, $value1, $value2, 'updated');
+                return makeStructureRec($key, $value2, $value1, 'updated');
             }
 
             return makeStructureIter($key, $iter($value1, $value2));

@@ -24,7 +24,7 @@ function formatDiffPlain($diff)
 
         if ($difference === 'updated') {
             $value2 = is_array($currentValue['value2']) ? "[complex value]" : toStringPlain($currentValue['value2']);
-            return array_merge($acc, ["Property '{$property}' was updated. From {$value1} to {$value2}"]);
+            return array_merge($acc, ["Property '{$property}' was updated. From {$value2} to {$value1}"]);
         }
 
         if ($difference === 'changed') {

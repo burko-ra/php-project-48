@@ -43,8 +43,8 @@ function formatDiffStylish($diff)
             [$sign1, $sign2] = OPERATION_SIGNS[$difference];
             return [
                 ...$acc,
-                "{$indent}  {$sign1} {$key}:{$spaceBeforeValue1}{$value1}",
-                "{$indent}  {$sign2} {$key}:{$spaceBeforeValue2}{$value2}"
+                "{$indent}  {$sign1} {$key}:{$spaceBeforeValue2}{$value2}",
+                "{$indent}  {$sign2} {$key}:{$spaceBeforeValue1}{$value1}"
             ];
         };
 
