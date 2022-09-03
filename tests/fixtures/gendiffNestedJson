@@ -1,0 +1,49 @@
+{
+    "common.follow": {
+        "operation": "added",
+        "value": false
+    },
+    "common.setting2": {
+        "operation": "removed",
+        "value": "ABSENT"
+    },
+    "common.setting3": {
+        "operation": "updated",
+        "value": null
+    },
+    "common.setting4": {
+        "operation": "added",
+        "value": "blah blah"
+    },
+    "common.setting5": {
+        "operation": "added",
+        "value": "vops"
+    },
+    "common.setting6.doge.wow": {
+        "operation": "updated",
+        "value": "so much"
+    },
+    "group1.baz": {
+        "operation": "updated",
+        "value": "bars"
+    },
+    "group1.nest": {
+        "operation": "updated",
+        "value": "str"
+    },
+    "group2": {
+        "operation": "removed",
+        "value": "ABSENT"
+    },
+    "group3": {
+        "operation": "added",
+        "value": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
+        }
+    }
+}
