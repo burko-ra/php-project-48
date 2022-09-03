@@ -17,7 +17,9 @@
     },
     "common.setting5": {
         "operation": "added",
-        "value": "vops"
+        "value": {
+            "key5": "value5"
+        }
     },
     "common.setting6.doge.wow": {
         "operation": "updated",
