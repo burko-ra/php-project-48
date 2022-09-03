@@ -31,7 +31,7 @@ class ComparisonTest extends TestCase
         $this->assertEquals($result, gendiff($file1, $file2));
     }
 
-    public function testGendiffPlain(): void
+    public function testGendiffFormatPlain(): void
     {
         $file1 = 'tests/fixtures/nested1.json';
         $file2 = 'tests/fixtures/nested2.yaml';
@@ -42,7 +42,7 @@ class ComparisonTest extends TestCase
         $this->assertEquals($result, gendiff($file1, $file2, 'plain'));
     }
 
-    public function testGendiffJson(): void
+    public function testGendiffFormatJson(): void
     {
         $file1 = 'tests/fixtures/nested1.json';
         $file2 = 'tests/fixtures/nested2.yaml';
