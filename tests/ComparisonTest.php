@@ -9,44 +9,37 @@ use function Gendiff\Cli\getFullPath;
 
 class ComparisonTest extends TestCase
 {
-    public function testGendiffJson(): void
+    public function testGendiffStylish(): void
     {
-        $file1 = 'tests/fixtures/nested1.json';
-        $file2 = 'tests/fixtures/nested2.json';
-        $fileResult = 'tests/fixtures/gendiffNestedStylish';
+        $file1 = 'tests/fixtures/file1.json';
+        $file2 = 'tests/fixtures/file2.json';
+        $file3 = 'tests/fixtures/file1.yml';
+        $file4 = 'tests/fixtures/file2.yaml';
+        $fileResult = 'tests/fixtures/gendiffStylish';
 
         $result = file_get_contents(getFullPath($fileResult), true);
 
         $this->assertEquals($result, gendiff($file1, $file2));
+        $this->assertEquals($result, gendiff($file3, $file4));
+        $this->assertEquals($result, gendiff($file1, $file2), 'stylish');
     }
 
-    public function testGendiffYaml(): void
+    public function testGendiffPlain(): void
     {
-        $file1 = 'tests/fixtures/nested1.yml';
-        $file2 = 'tests/fixtures/nested2.yaml';
-        $fileResult = 'tests/fixtures/gendiffNestedStylish';
-
-        $result = file_get_contents(getFullPath($fileResult), true);
-
-        $this->assertEquals($result, gendiff($file1, $file2));
-    }
-
-    public function testGendiffFormatPlain(): void
-    {
-        $file1 = 'tests/fixtures/nested1.json';
-        $file2 = 'tests/fixtures/nested2.yaml';
-        $fileResult = 'tests/fixtures/gendiffNestedPlain';
+        $file1 = 'tests/fixtures/file1.json';
+        $file2 = 'tests/fixtures/file2.yaml';
+        $fileResult = 'tests/fixtures/gendiffPlain';
 
         $result = file_get_contents(getFullPath($fileResult), true);
 
         $this->assertEquals($result, gendiff($file1, $file2, 'plain'));
     }
 
-    public function testGendiffFormatJson(): void
+    public function testGendiffJson(): void
     {
-        $file1 = 'tests/fixtures/nested1.json';
-        $file2 = 'tests/fixtures/nested2.yaml';
-        $fileResult = 'tests/fixtures/gendiffNestedJson';
+        $file1 = 'tests/fixtures/file1.json';
+        $file2 = 'tests/fixtures/file2.yaml';
+        $fileResult = 'tests/fixtures/gendiffJson';
 
         $result = file_get_contents(getFullPath($fileResult), true);
 
