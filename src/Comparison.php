@@ -10,7 +10,6 @@ function readFile($path)
     return file_get_contents($path, true);
 }
 
-
 function prepareFileToComparison($pathToFile)
 {
     $file = readFile($pathToFile);
