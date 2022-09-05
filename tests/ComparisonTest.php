@@ -5,6 +5,7 @@ namespace Gendiff\Tests;
 use PHPUnit\Framework\TestCase;
 
 use function Gendiff\Comparison\gendiff;
+use function Gendiff\Comparison\stringifyIfIndexArray;
 use function Gendiff\Cli\getFullPath;
 
 class ComparisonTest extends TestCase
@@ -44,5 +45,18 @@ class ComparisonTest extends TestCase
         $result = file_get_contents(getFullPath($fileResult), true);
 
         $this->assertEquals($result, gendiff($file1, $file2, 'json'));
+    }
+
+    public function teststringifyIfIndexArray(): void
+    {
+        $var1 = 1;
+        $var2 = ['key1' => 'value1', 'key2' => ['key3' => 'value3']];
+        $var3 = [1, 4, [7, 10, [13]]];
+
+        $this->assertEquals($var1, stringifyIfIndexArray($var1));
+        $this->assertEquals($var2, stringifyIfIndexArray($var2));
+
+        $result3 = "[1, 4, [7, 10, [13]]]";
+        $this->assertEquals($result3, stringifyIfIndexArray($var3));
     }
 }
