@@ -10,12 +10,12 @@ const OPERATION_SIGNS = [
     'updated' => ['-', '+']
 ];
 
-function toStringStylish($value)
+function toStringStylish(mixed $value): string
 {
     return is_null($value) ? "null" : trim(var_export($value, true), "'");
 }
 
-function formatDiffStylish($diff)
+function formatDiffStylish(array $diff): string
 {
     $iter = function ($currentValue, $typeOfValue, $depth) use (&$iter) {
         $children = $currentValue[$typeOfValue];

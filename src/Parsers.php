@@ -5,7 +5,7 @@ namespace Gendiff\Parsers;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-function parse($file, $pathToFile)
+function parse(string $file, string $pathToFile): array
 {
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
     if ($extension === 'json') {
@@ -17,7 +17,7 @@ function parse($file, $pathToFile)
     throw new \Exception("Unknown extension: '{$extension}'");
 }
 
-function parseJson($file, $pathToFile)
+function parseJson(string $file, string $pathToFile): array
 {
     try {
         $decoded = json_decode($file, true);
@@ -31,7 +31,7 @@ function parseJson($file, $pathToFile)
     return $decoded;
 }
 
-function parseYaml($pathToFile)
+function parseYaml(string $pathToFile): array
 {
     try {
         $decoded = Yaml::parseFile($pathToFile);

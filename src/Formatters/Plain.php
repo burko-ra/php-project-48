@@ -2,12 +2,12 @@
 
 namespace Gendiff\Formatters\Plain;
 
-function toStringPlain($value)
+function toStringPlain(mixed $value): string
 {
     return is_null($value) ? "null" : var_export($value, true);
 }
 
-function formatDiffPlain($diff)
+function formatDiffPlain(array $diff): string
 {
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
         $property = $currentPath . $currentValue['key'];

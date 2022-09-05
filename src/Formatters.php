@@ -6,7 +6,7 @@ use function Gendiff\Formatters\Stylish\formatDiffStylish;
 use function Gendiff\Formatters\Plain\formatDiffPlain;
 use function Gendiff\Formatters\Json\formatDiffJson;
 
-function formatDiff($diff, $format)
+function formatDiff(array $diff, string $format): string
 {
     switch ($format) {
         case 'stylish':

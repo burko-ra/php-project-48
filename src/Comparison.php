@@ -5,24 +5,24 @@ namespace Gendiff\Comparison;
 use function Gendiff\Parsers\parse;
 use function Gendiff\Formatters\formatDiff;
 
-function readFile($path)
+function readFile(string $path): string
 {
     return file_get_contents($path, true);
 }
 
-function prepareFileToComparison($pathToFile)
+function prepareFileToComparison(string $pathToFile): array
 {
     $file = readFile($pathToFile);
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
     return parse($file, $pathToFile);
 }
 
-function makeStructureIter($key, $value1, $value2 = null, $diff = 'changed')
+function makeStructureIter(mixed $key, mixed $value1, mixed $value2 = null, string $diff = 'changed')
 {
     return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'diff' => $diff];
 }
 
-function isAssociativeArray($array)
+function isAssociativeArray(mixed $array): bool
 {
     if (!is_array($array)) {
         return false;
@@ -31,7 +31,7 @@ function isAssociativeArray($array)
     return $array !== $filtered;
 }
 
-function stringifyIfIndexArray($var)
+function stringifyIfIndexArray(mixed $var): mixed
 {
     if (!is_array($var) || isAssociativeArray($var)) {
         return $var;
@@ -49,7 +49,7 @@ function stringifyIfIndexArray($var)
     return $iter($var);
 }
 
-function makeStructureRec($key, $value1, $value2 = null, $diff = 'unchanged')
+function makeStructureRec(mixed $key, mixed $value1, mixed $value2 = null, string $diff = 'unchanged'): array
 {
     $result1 = isAssociativeArray($value1) ?
         array_map(fn($newKey, $newValue) => makeStructureRec($newKey, $newValue), array_keys($value1), $value1) :
@@ -62,7 +62,7 @@ function makeStructureRec($key, $value1, $value2 = null, $diff = 'unchanged')
     return ['key' => $key, 'value1' => $result1, 'value2' => $result2, 'diff' => $diff];
 }
 
-function makeDiff($file1, $file2)
+function makeDiff(array $file1, array $file2): array
 {
     $iter = function ($file1, $file2) use (&$iter) {
         $keys1 = array_keys($file1);
@@ -99,7 +99,7 @@ function makeDiff($file1, $file2)
     return makeStructureIter('', $iter($file1, $file2));
 }
 
-function gendiff($pathToFile1, $pathToFile2, $format = 'stylish')
+function gendiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish'): string
 {
     $file1 = prepareFileToComparison($pathToFile1);
     $file2 = prepareFileToComparison($pathToFile2);

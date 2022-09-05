@@ -2,7 +2,7 @@
 
 namespace Gendiff\Formatters\Json;
 
-function makeKeyValue($value)
+function makeKeyValue(mixed $value): mixed
 {
     if (!is_array($value)) {
         return $value;
@@ -14,7 +14,7 @@ function makeKeyValue($value)
     }, []);
 }
 
-function makeStructure($property, $element)
+function makeStructure(mixed $property, array $element): array
 {
     $operation = $element['diff'];
     $value = $element['value1'];
@@ -26,18 +26,18 @@ function makeStructure($property, $element)
     return $structure;
 }
 
-function toStringPlain($value)
+function toStringJson(mixed $value): string
 {
     return is_null($value) ? "null" : var_export($value, true);
 }
 
-function formatDiffJson($diff)
+function formatDiffJson(array $diff): string
 {
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
         $property = $currentPath . $currentValue['key'];
         $difference = $currentValue['diff'];
 
-        $value1 = is_array($currentValue['value1']) ? "[complex value]" : toStringPlain($currentValue['value1']);
+        $value1 = is_array($currentValue['value1']) ? "[complex value]" : toStringJson($currentValue['value1']);
         if ($difference === 'added') {
             return array_merge($acc, makeStructure($property, $currentValue));
         }
