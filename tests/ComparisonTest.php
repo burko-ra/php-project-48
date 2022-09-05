@@ -19,7 +19,7 @@ class ComparisonTest extends TestCase
         $file4 = 'tests/fixtures/file2.yaml';
         $fileResult = 'tests/fixtures/gendiffStylish';
 
-        $result = readFile(getFullPath($fileResult));
+        $result = readFile($fileResult);
 
         $this->assertEquals($result, gendiff($file1, $file2));
         $this->assertEquals($result, gendiff($file3, $file4));
@@ -32,7 +32,7 @@ class ComparisonTest extends TestCase
         $file2 = 'tests/fixtures/file2.yaml';
         $fileResult = 'tests/fixtures/gendiffPlain';
 
-        $result = readFile(getFullPath($fileResult));
+        $result = readFile($fileResult);
 
         $this->assertEquals($result, gendiff($file1, $file2, 'plain'));
     }
@@ -43,7 +43,7 @@ class ComparisonTest extends TestCase
         $file2 = 'tests/fixtures/file2.yaml';
         $fileResult = 'tests/fixtures/gendiffJson';
 
-        $result = readFile(getFullPath($fileResult));
+        $result = readFile($fileResult);
 
         $this->assertEquals($result, gendiff($file1, $file2, 'json'));
     }
