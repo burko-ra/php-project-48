@@ -2,14 +2,14 @@
 
 namespace Gendiff\Formatters\Json;
 
-function makeKeyValue($value)
+function makeAssociativeArray($value)
 {
     if (!is_array($value)) {
         return $value;
     }
     return array_reduce($value, function ($acc, $item) {
         $newKey = $item['key'];
-        $newValue = makeKeyValue($item['value1']);
+        $newValue = makeAssociativeArray($item['value1']);
         return array_merge($acc, [$newKey => $newValue]);
     }, []);
 }
@@ -20,7 +20,7 @@ function makeStructure($property, array $element): array
     $value = $element['value1'];
     $structure = [$property => [
         'operation' => $operation,
-        'value' => makeKeyValue($value)
+        'value' => makeAssociativeArray($value)
         ]
     ];
     return $structure;
@@ -35,22 +35,14 @@ function formatDiffJson(array $diff): string
 {
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
         $property = $currentPath . $currentValue['key'];
-        $difference = $currentValue['diff'];
-
+        $operation = $currentValue['diff'];
         $value1 = is_array($currentValue['value1']) ? "[complex value]" : toStringJson($currentValue['value1']);
-        if ($difference === 'added') {
+        
+        if ($operation === 'added' || $operation === 'removed' || $operation === 'updated') {
             return array_merge($acc, makeStructure($property, $currentValue));
         }
 
-        if ($difference === 'removed') {
-            return array_merge($acc, makeStructure($property, $currentValue));
-        }
-
-        if ($difference === 'updated') {
-            return array_merge($acc, makeStructure($property, $currentValue));
-        }
-
-        if ($difference === 'changed') {
+        if ($operation === 'changed') {
             $children = $currentValue['value1'];
             $newPath = ($depth === 1) ? $property : "{$property}.";
             return array_reduce($children, fn($newAcc, $item) => $iter($item, $newPath, $depth + 1, $newAcc), $acc);
