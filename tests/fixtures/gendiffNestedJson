@@ -5,7 +5,7 @@
     },
     "common.setting2": {
         "operation": "removed",
-        "value": "ABSENT"
+        "value": 200
     },
     "common.setting3": {
         "operation": "updated",
@@ -25,6 +25,10 @@
         "operation": "updated",
         "value": "so much"
     },
+    "common.setting6.ops": {
+        "operation": "added",
+        "value": "vops"
+    },
     "group1.baz": {
         "operation": "updated",
         "value": "bars"
@@ -35,7 +39,12 @@
     },
     "group2": {
         "operation": "removed",
-        "value": "ABSENT"
+        "value": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        }
     },
     "group3": {
         "operation": "added",
