@@ -14,7 +14,7 @@ function prepareFileToComparison($pathToFile)
 {
     $file = readFile($pathToFile);
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
-    return parse($file, $extension);
+    return parse($file, $pathToFile);
 }
 
 function makeStructureIter($key, $value1, $value2 = null, $diff = 'changed')
