@@ -17,12 +17,12 @@ function prepareFileToComparison(string $pathToFile): array
     return parse($file, $pathToFile);
 }
 
-function makeStructureIter(mixed $key, mixed $value1, mixed $value2 = null, string $diff = 'changed')
+function makeStructureIter($key, $value1, $value2 = null, string $diff = 'changed')
 {
     return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'diff' => $diff];
 }
 
-function isAssociativeArray(mixed $array): bool
+function isAssociativeArray($array): bool
 {
     if (!is_array($array)) {
         return false;
@@ -31,7 +31,7 @@ function isAssociativeArray(mixed $array): bool
     return $array !== $filtered;
 }
 
-function stringifyIfIndexArray(mixed $var): mixed
+function stringifyIfIndexArray($var)
 {
     if (!is_array($var) || isAssociativeArray($var)) {
         return $var;
@@ -49,7 +49,7 @@ function stringifyIfIndexArray(mixed $var): mixed
     return $iter($var);
 }
 
-function makeStructureRec(mixed $key, mixed $value1, mixed $value2 = null, string $diff = 'unchanged'): array
+function makeStructureRec($key, $value1, $value2 = null, string $diff = 'unchanged'): array
 {
     $result1 = isAssociativeArray($value1) ?
         array_map(fn($newKey, $newValue) => makeStructureRec($newKey, $newValue), array_keys($value1), $value1) :

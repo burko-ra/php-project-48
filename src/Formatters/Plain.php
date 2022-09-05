@@ -2,7 +2,7 @@
 
 namespace Gendiff\Formatters\Plain;
 
-function toStringPlain(mixed $value): string
+function toStringPlain($value): string
 {
     return is_null($value) ? "null" : var_export($value, true);
 }

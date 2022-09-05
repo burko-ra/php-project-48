@@ -2,7 +2,7 @@
 
 namespace Gendiff\Formatters\Json;
 
-function makeKeyValue(mixed $value): mixed
+function makeKeyValue($value)
 {
     if (!is_array($value)) {
         return $value;
@@ -14,7 +14,7 @@ function makeKeyValue(mixed $value): mixed
     }, []);
 }
 
-function makeStructure(mixed $property, array $element): array
+function makeStructure($property, array $element): array
 {
     $operation = $element['diff'];
     $value = $element['value1'];
@@ -26,7 +26,7 @@ function makeStructure(mixed $property, array $element): array
     return $structure;
 }
 
-function toStringJson(mixed $value): string
+function toStringJson($value): string
 {
     return is_null($value) ? "null" : var_export($value, true);
 }
