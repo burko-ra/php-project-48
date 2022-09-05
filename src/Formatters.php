@@ -14,7 +14,7 @@ function formatDiff($diff, $format)
         case 'plain':
             return formatDiffPlain($diff);
         case 'json':
-                return formatDiffJson($diff);
+            return formatDiffJson($diff);
         default:
             throw new \Exception("Unknown format: '{$format}'");
     }
