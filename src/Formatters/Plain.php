@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff\Formatters\Plain;
+namespace Differ\Formatters\Plain;
 
 function toStringPlain($value): string
 {

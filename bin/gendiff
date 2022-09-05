@@ -28,4 +28,4 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // //var_dump($pathToFile2);
 // $format = $args['--format'];
 
-Gendiff\Cli\run();
+Differ\Cli\run();

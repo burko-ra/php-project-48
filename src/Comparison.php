@@ -1,9 +1,9 @@
 <?php
 
-namespace Gendiff\Comparison;
+namespace Differ\Differ;
 
-use function Gendiff\Parsers\parse;
-use function Gendiff\Formatters\formatDiff;
+use function Differ\Parsers\parse;
+use function Differ\Formatters\formatDiff;
 
 function readFile(string $path): string
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Gendiff\Cli;
+namespace Differ\Cli;
 
 use Docopt;
 
-use function Gendiff\Comparison\gendiff;
+use function Differ\Differ\gendiff;
 
 const DOC = <<<EOF
 Generate diff

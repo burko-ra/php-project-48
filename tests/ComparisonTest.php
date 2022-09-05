@@ -1,12 +1,12 @@
 <?php
 
-namespace Gendiff\Tests;
+namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Gendiff\Comparison\gendiff;
-use function Gendiff\Comparison\stringifyIfIndexArray;
-use function Gendiff\Comparison\readFile;
+use function Differ\Differ\gendiff;
+use function Differ\Differ\stringifyIfIndexArray;
+use function Differ\Differ\readFile;
 
 class ComparisonTest extends TestCase
 {
