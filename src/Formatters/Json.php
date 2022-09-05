@@ -37,7 +37,7 @@ function formatDiffJson(array $diff): string
         $property = $currentPath . $currentValue['key'];
         $operation = $currentValue['diff'];
         $value1 = is_array($currentValue['value1']) ? "[complex value]" : toStringJson($currentValue['value1']);
-        
+
         if ($operation === 'added' || $operation === 'removed' || $operation === 'updated') {
             return array_merge($acc, makeStructure($property, $currentValue));
         }
