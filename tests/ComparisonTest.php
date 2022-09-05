@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use function Gendiff\Comparison\gendiff;
 use function Gendiff\Comparison\stringifyIfIndexArray;
+use function Gendiff\Comparison\readFile;
 use function Gendiff\Cli\getFullPath;
 
 class ComparisonTest extends TestCase
@@ -18,7 +19,7 @@ class ComparisonTest extends TestCase
         $file4 = 'tests/fixtures/file2.yaml';
         $fileResult = 'tests/fixtures/gendiffStylish';
 
-        $result = file_get_contents(getFullPath($fileResult), true);
+        $result = readFile(getFullPath($fileResult));
 
         $this->assertEquals($result, gendiff($file1, $file2));
         $this->assertEquals($result, gendiff($file3, $file4));
@@ -31,7 +32,7 @@ class ComparisonTest extends TestCase
         $file2 = 'tests/fixtures/file2.yaml';
         $fileResult = 'tests/fixtures/gendiffPlain';
 
-        $result = file_get_contents(getFullPath($fileResult), true);
+        $result = readFile(getFullPath($fileResult));
 
         $this->assertEquals($result, gendiff($file1, $file2, 'plain'));
     }
@@ -42,12 +43,12 @@ class ComparisonTest extends TestCase
         $file2 = 'tests/fixtures/file2.yaml';
         $fileResult = 'tests/fixtures/gendiffJson';
 
-        $result = file_get_contents(getFullPath($fileResult), true);
+        $result = readFile(getFullPath($fileResult));
 
         $this->assertEquals($result, gendiff($file1, $file2, 'json'));
     }
 
-    public function teststringifyIfIndexArray(): void
+    public function testStringifyIfIndexArray(): void
     {
         $var1 = 1;
         $var2 = ['key1' => 'value1', 'key2' => ['key3' => 'value3']];
