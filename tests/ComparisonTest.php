@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use function Gendiff\Comparison\gendiff;
 use function Gendiff\Comparison\stringifyIfIndexArray;
 use function Gendiff\Comparison\readFile;
-use function Gendiff\Cli\getFullPath;
 
 class ComparisonTest extends TestCase
 {
