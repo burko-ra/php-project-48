@@ -30,23 +30,19 @@ function formatDiffStylish(array $diff): string
             $difference = $item['diff'];
 
             $value1 = $iter($item, 'value1', $depth + 1);
-            //$spaceBeforeValue1 = empty($value1) ? "" : " ";
-            $spaceBeforeValue1 = " ";
 
             if ($difference !== 'updated') {
                 $sign = OPERATION_SIGNS[$difference];
-                return [...$acc, "{$indent}  {$sign} {$key}:{$spaceBeforeValue1}{$value1}"];
+                return [...$acc, "{$indent}  {$sign} {$key}: {$value1}"];
             }
 
             $value2 = $iter($item, 'value2', $depth + 1);
-            //$spaceBeforeValue2 = empty($value2) ? "" : " ";
-            $spaceBeforeValue2 = " ";
 
             [$sign1, $sign2] = OPERATION_SIGNS[$difference];
             return [
                 ...$acc,
-                "{$indent}  {$sign1} {$key}:{$spaceBeforeValue2}{$value2}",
-                "{$indent}  {$sign2} {$key}:{$spaceBeforeValue1}{$value1}"
+                "{$indent}  {$sign1} {$key}: {$value2}",
+                "{$indent}  {$sign2} {$key}: {$value1}"
             ];
         };
 
