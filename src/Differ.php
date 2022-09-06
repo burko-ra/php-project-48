@@ -17,7 +17,7 @@ function getRealPath(string $pathToFile): string
     $fullPath = $addedPart . $pathToFile;
     try {
         $realPath = realpath($fullPath);
-        if (!$realPath) {
+        if ($realPath === false) {
             throw new \Exception("Invalid path to file: '{$pathToFile}'");
         }
     } catch (\Exception $e) {
@@ -36,7 +36,7 @@ function readFile(string $pathToFile): string
 {
     try {
         $content = file_get_contents($pathToFile, true);
-        if (!$content) {
+        if ($content === false) {
             throw new \Exception("Cannot read the file: '{$pathToFile}'");
         }
     } catch (\Exception $e) {

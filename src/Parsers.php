@@ -13,22 +13,17 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 function parse(string $file, string $pathToFile): array
 {
-    try {
-        $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
+    $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
-        if ($extension === 'json') {
-            return parseJson($file, $pathToFile);
-        }
-
-        if ($extension === 'yml' || $extension === 'yaml') {
-            return parseYaml($pathToFile);
-        }
-
-        throw new \Exception("Unknown extension: '{$extension}'");
-    } catch (\Exception $e) {
-        print $e->getMessage();
-        exit();
+    if ($extension === 'json') {
+        return parseJson($file, $pathToFile);
     }
+
+    if ($extension === 'yml' || $extension === 'yaml') {
+        return parseYaml($pathToFile);
+    }
+
+    throw new \Exception("Unknown extension: '{$extension}'");
 }
 
 /**
@@ -39,14 +34,9 @@ function parse(string $file, string $pathToFile): array
 
 function parseJson(string $file, string $pathToFile): array
 {
-    try {
-        $decoded = json_decode($file, true);
-        if ($decoded === null) {
-            throw new \Exception("This JSON cannot be decoded: '{$pathToFile}'\n");
-        }
-    } catch (\Exception $e) {
-        print $e->getMessage();
-        exit();
+    $decoded = json_decode($file, true);
+    if ($decoded === null) {
+        throw new \Exception("This JSON cannot be decoded: '{$pathToFile}'\n");
     }
     return $decoded;
 }
@@ -58,11 +48,5 @@ function parseJson(string $file, string $pathToFile): array
 
 function parseYaml(string $pathToFile): array
 {
-    try {
-        $decoded = Yaml::parseFile($pathToFile);
-    } catch (ParseException $e) {
-        print "This YAML cannot be decoded: '{$pathToFile}'\n";
-        exit();
-    }
-    return $decoded;
+    return Yaml::parseFile($pathToFile);
 }
