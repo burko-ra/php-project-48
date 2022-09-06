@@ -7,13 +7,22 @@ const OPERATION_SIGNS = [
     'removed' => '-',
     'unchanged' => ' ',
     'changed' => ' ',
-    'updated' => ['-', '+']
 ];
+
+/**
+ * @param mixed $value
+ * @return string
+ */
 
 function toStringStylish($value): string
 {
     return is_null($value) ? "null" : trim(var_export($value, true), "'");
 }
+
+/**
+ * @param array<mixed> $diff
+ * @return string
+ */
 
 function formatDiffStylish(array $diff): string
 {
@@ -37,8 +46,8 @@ function formatDiffStylish(array $diff): string
             }
 
             $value2 = $iter($item, 'value2', $depth + 1);
-
-            [$sign1, $sign2] = OPERATION_SIGNS[$difference];
+            $sign1 = OPERATION_SIGNS['removed'];
+            $sign2 = OPERATION_SIGNS['added'];
             return [
                 ...$acc,
                 "{$indent}  {$sign1} {$key}: {$value2}",

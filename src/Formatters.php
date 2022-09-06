@@ -6,6 +6,12 @@ use function Differ\Formatters\Stylish\formatDiffStylish;
 use function Differ\Formatters\Plain\formatDiffPlain;
 use function Differ\Formatters\Json\formatDiffJson;
 
+/**
+ * @param array<mixed> $diff
+ * @param string $format
+ * @return string
+ */
+
 function formatDiff(array $diff, string $format): string
 {
     switch ($format) {

@@ -2,6 +2,11 @@
 
 namespace Differ\Formatters\Json;
 
+/**
+ * @param mixed $value
+ * @return mixed
+ */
+
 function makeAssociativeArray($value)
 {
     if (!is_array($value)) {
@@ -14,7 +19,13 @@ function makeAssociativeArray($value)
     }, []);
 }
 
-function makeStructure($property, array $element): array
+/**
+ * @param string $property
+ * @param array<mixed> $element
+ * @return array<mixed>
+ */
+
+function makeStructure(string $property, array $element): array
 {
     $operation = $element['diff'];
     $value = $element['value1'];
@@ -26,10 +37,20 @@ function makeStructure($property, array $element): array
     return $structure;
 }
 
+/**
+ * @param mixed $value
+ * @return string
+ */
+
 function toStringJson($value): string
 {
     return is_null($value) ? "null" : var_export($value, true);
 }
+
+/**
+ * @param array<mixed> $diff
+ * @return string
+ */
 
 function formatDiffJson(array $diff): string
 {

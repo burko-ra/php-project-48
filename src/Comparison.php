@@ -5,17 +5,50 @@ namespace Differ\Differ;
 use function Differ\Parsers\parse;
 use function Differ\Formatters\formatDiff;
 
-function getRealPath(string $path): string
+/**
+ * @param string $pathToFile
+ * @return string
+ */
+
+function getRealPath(string $pathToFile): string
 {
-    $addedPart = $path[0] === '/' ? '' : __DIR__ . "/../";
-    $fullPath = $addedPart . $path;
-    return realpath($fullPath);
+    $addedPart = $pathToFile[0] === '/' ? '' : __DIR__ . "/../";
+    $fullPath = $addedPart . $pathToFile;
+    try {
+        $realPath = realpath($fullPath);
+        if (!$realPath) {
+            throw new \Exception("Invalid path to file: '{$pathToFile}'");
+        }
+    } catch (\Exception $e) {
+        print $e->getMessage();
+        exit();
+    }
+    return $realPath;
 }
 
-function readFile(string $path): string
+/**
+ * @param string $pathToFile
+ * @return string
+ */
+
+function readFile(string $pathToFile): string
 {
-    return file_get_contents($path, true);
+    try {
+        $content = file_get_contents($pathToFile, true);
+        if (!$content) {
+            throw new \Exception("Cannot read the file: '{$pathToFile}'");
+        }
+    } catch (\Exception $e) {
+        print $e->getMessage();
+        exit();
+    }
+    return $content;
 }
+
+/**
+ * @param string $pathToFile
+ * @return array<mixed>
+ */
 
 function prepareFileToComparison(string $pathToFile): array
 {
@@ -25,37 +58,63 @@ function prepareFileToComparison(string $pathToFile): array
     return parse($file, $realpath);
 }
 
-function makeStructureIter($key, $value1, $value2 = null, string $diff = 'changed')
+/**
+ * @param mixed $key
+ * @param mixed $value1
+ * @param mixed $value2
+ * @param string $diff
+ * @return array<mixed>
+ */
+
+function makeStructureIter($key, $value1, $value2 = null, string $diff = 'changed'): array
 {
     return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'diff' => $diff];
 }
 
-function isAssociativeArray($array): bool
+/**
+ * @param mixed $value
+ * @return bool
+ */
+
+function isAssociativeArray($value): bool
 {
-    if (!is_array($array)) {
+    if (!is_array($value)) {
         return false;
     }
-    $filtered = array_filter($array, fn($item) => is_int($item), ARRAY_FILTER_USE_KEY);
-    return $array !== $filtered;
+    $filtered = array_filter($value, fn($item) => is_int($item), ARRAY_FILTER_USE_KEY);
+    return $value !== $filtered;
 }
 
-function stringifyIfIndexArray($var)
+/**
+ * @param mixed $value
+ * @return mixed
+ */
+
+function stringifyIfIndexArray($value)
 {
-    if (!is_array($var) || isAssociativeArray($var)) {
-        return $var;
+    if (!is_array($value) || isAssociativeArray($value)) {
+        return $value;
     }
 
-    $iter = function ($value) use (&$iter) {
-        if (!is_array($value)) {
-            return trim(var_export($value, true), "'");
+    $iter = function ($array) use (&$iter) {
+        if (!is_array($array)) {
+            return trim(var_export($array, true), "'");
         }
 
-        $lines = array_map(fn($item) => $iter($item), $value);
+        $lines = array_map(fn($item) => $iter($item), $array);
         return "[" . implode(", ", $lines) . "]";
     };
 
-    return $iter($var);
+    return $iter($value);
 }
+
+/**
+ * @param mixed $key
+ * @param mixed $value1
+ * @param mixed $value2
+ * @param string $diff
+ * @return array<mixed>
+ */
 
 function makeStructureRec($key, $value1, $value2 = null, string $diff = 'unchanged'): array
 {
@@ -69,6 +128,12 @@ function makeStructureRec($key, $value1, $value2 = null, string $diff = 'unchang
 
     return ['key' => $key, 'value1' => $result1, 'value2' => $result2, 'diff' => $diff];
 }
+
+/**
+ * @param array<mixed> $file1
+ * @param array<mixed> $file2
+ * @return array<mixed>
+ */
 
 function makeDiff(array $file1, array $file2): array
 {
@@ -106,6 +171,13 @@ function makeDiff(array $file1, array $file2): array
 
     return makeStructureIter('', $iter($file1, $file2));
 }
+
+/**
+ * @param string $pathToFile1
+ * @param string $pathToFile2
+ * @param string $format
+ * @return string
+ */
 
 function gendiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish'): string
 {

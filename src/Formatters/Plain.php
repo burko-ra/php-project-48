@@ -2,10 +2,20 @@
 
 namespace Differ\Formatters\Plain;
 
+/**
+ * @param mixed $value
+ * @return string
+ */
+
 function toStringPlain($value): string
 {
     return is_null($value) ? "null" : var_export($value, true);
 }
+
+/**
+ * @param array<mixed> $diff
+ * @return string
+ */
 
 function formatDiffPlain(array $diff): string
 {
