@@ -15,7 +15,7 @@ function getRealPath(string $pathToFile): string
 {
     $addedPart = $pathToFile[0] === '/' ? '' : __DIR__ . "/../";
     $fullPath = $addedPart . $pathToFile;
-    
+
     $realPath = realpath($fullPath);
     if ($realPath === false) {
         throw new \Exception("Invalid path to file: '{$pathToFile}'");
