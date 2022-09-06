@@ -12,6 +12,7 @@
             "src/Comparison.php",
             "src/Parsers.php",
             "src/Cli.php",
+            "src/Diff.php",
             "src/Formatters.php",
             "src/Formatters/Stylish.php",
             "src/Formatters/Plain.php",
