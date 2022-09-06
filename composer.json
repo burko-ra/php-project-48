@@ -9,7 +9,7 @@
         "files": [
             "vendor/docopt/docopt/src/docopt.php",
             "vendor/symfony/yaml/Yaml.php",
-            "src/Comparison.php",
+            "src/Differ.php",
             "src/Parsers.php",
             "src/Cli.php",
             "src/Diff.php",
