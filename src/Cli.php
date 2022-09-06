@@ -21,18 +21,11 @@ Options:
 
 EOF;
 
-function getRealPath(string $path): string
-{
-    //$addedPart = $path[0] === '/' ? '' : __DIR__ . "/../";
-    //$fullPath = $addedPart . $path;
-    return realpath($path);
-}
-
 function run(): void
 {
     $args = Docopt::handle(DOC);
-    $pathToFile1 = getRealPath($args['<firstFile>']);
-    $pathToFile2 = getRealPath($args['<secondFile>']);
+    $pathToFile1 = $args['<firstFile>'];
+    $pathToFile2 = $args['<secondFile>'];
     $format = $args['--format'];
 
     print_r(gendiff($pathToFile1, $pathToFile2, $format));

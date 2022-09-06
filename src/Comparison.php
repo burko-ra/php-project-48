@@ -5,6 +5,13 @@ namespace Differ\Differ;
 use function Differ\Parsers\parse;
 use function Differ\Formatters\formatDiff;
 
+function getRealPath(string $path): string
+{
+    $addedPart = $path[0] === '/' ? '' : __DIR__ . "/../";
+    $fullPath = $addedPart . $path;
+    return realpath($fullPath);
+}
+
 function readFile(string $path): string
 {
     return file_get_contents($path, true);
@@ -12,9 +19,10 @@ function readFile(string $path): string
 
 function prepareFileToComparison(string $pathToFile): array
 {
-    $file = readFile($pathToFile);
-    $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
-    return parse($file, $pathToFile);
+    $realpath = getRealPath($pathToFile);
+    $file = readFile($realpath);
+    $extension = pathinfo($realpath, PATHINFO_EXTENSION);
+    return parse($file, $realpath);
 }
 
 function makeStructureIter($key, $value1, $value2 = null, string $diff = 'changed')
