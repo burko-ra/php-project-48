@@ -20,11 +20,11 @@ function toStringStylish($value): string
 }
 
 /**
- * @param array<mixed> $diff
+ * @param array<mixed> $operation
  * @return string
  */
 
-function formatDiffStylish(array $diff): string
+function formatDiffStylish(array $operation): string
 {
     $iter = function ($currentValue, $typeOfValue, $depth) use (&$iter) {
         $children = $currentValue[$typeOfValue];
@@ -36,12 +36,12 @@ function formatDiffStylish(array $diff): string
 
         $callback = function ($acc, $item) use ($iter, $indent, $depth) {
             $key = $item['key'];
-            $difference = $item['diff'];
+            $operation = $item['operation'];
 
             $value1 = $iter($item, 'value1', $depth + 1);
 
-            if ($difference !== 'updated') {
-                $sign = OPERATION_SIGNS[$difference];
+            if ($operation !== 'updated') {
+                $sign = OPERATION_SIGNS[$operation];
                 return [...$acc, "{$indent}  {$sign} {$key}: {$value1}"];
             }
 
@@ -59,5 +59,5 @@ function formatDiffStylish(array $diff): string
         return "{\n" . implode("\n", $lines) . "\n" . $indent . "}";
     };
 
-    return $iter($diff, 'value1', 1);
+    return $iter($operation, 'value1', 1);
 }

@@ -27,7 +27,7 @@ function makeAssociativeArray($value)
 
 function makeStructure(string $property, array $element): array
 {
-    $operation = $element['diff'];
+    $operation = $element['operation'];
     $value = $element['value1'];
     $structure = [$property => [
         'operation' => $operation,
@@ -48,15 +48,15 @@ function toStringJson($value): string
 }
 
 /**
- * @param array<mixed> $diff
+ * @param array<mixed> $operation
  * @return string
  */
 
-function formatDiffJson(array $diff): string
+function formatDiffJson(array $operation): string
 {
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
         $property = $currentPath . $currentValue['key'];
-        $operation = $currentValue['diff'];
+        $operation = $currentValue['operation'];
         $value1 = is_array($currentValue['value1']) ? "[complex value]" : toStringJson($currentValue['value1']);
 
         if ($operation === 'added' || $operation === 'removed' || $operation === 'updated') {
@@ -72,5 +72,5 @@ function formatDiffJson(array $diff): string
         return $acc;
     };
 
-    return json_encode($iter($diff, '', 1, []), JSON_PRETTY_PRINT) . "\n";
+    return json_encode($iter($operation, '', 1, []), JSON_PRETTY_PRINT) . "\n";
 }

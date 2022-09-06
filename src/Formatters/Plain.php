@@ -13,31 +13,31 @@ function toStringPlain($value): string
 }
 
 /**
- * @param array<mixed> $diff
+ * @param array<mixed> $operation
  * @return string
  */
 
-function formatDiffPlain(array $diff): string
+function formatDiffPlain(array $operation): string
 {
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
         $property = $currentPath . $currentValue['key'];
-        $difference = $currentValue['diff'];
+        $operation = $currentValue['operation'];
 
         $value1 = is_array($currentValue['value1']) ? "[complex value]" : toStringPlain($currentValue['value1']);
-        if ($difference === 'added') {
+        if ($operation === 'added') {
             return array_merge($acc, ["Property '{$property}' was added with value: {$value1}"]);
         }
 
-        if ($difference === 'removed') {
+        if ($operation === 'removed') {
             return array_merge($acc, ["Property '{$property}' was removed"]);
         }
 
-        if ($difference === 'updated') {
+        if ($operation === 'updated') {
             $value2 = is_array($currentValue['value2']) ? "[complex value]" : toStringPlain($currentValue['value2']);
             return array_merge($acc, ["Property '{$property}' was updated. From {$value2} to {$value1}"]);
         }
 
-        if ($difference === 'changed') {
+        if ($operation === 'changed') {
             $children = $currentValue['value1'];
             $newPath = ($depth === 1) ? $property : "{$property}.";
             return array_reduce($children, fn($newAcc, $item) => $iter($item, $newPath, $depth + 1, $newAcc), $acc);
@@ -46,5 +46,5 @@ function formatDiffPlain(array $diff): string
         return $acc;
     };
 
-    return implode("\n", $iter($diff, '', 1, []));
+    return implode("\n", $iter($operation, '', 1, []));
 }

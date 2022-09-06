@@ -8,13 +8,13 @@ use function Functional\sort;
  * @param mixed $key
  * @param mixed $value1
  * @param mixed $value2
- * @param string $diff
+ * @param string $operation
  * @return array<mixed>
  */
 
-function makeStructureIter($key, $value1, $value2 = null, string $diff = 'changed'): array
+function makeStructureIter($key, $value1, $value2 = null, string $operation = 'changed'): array
 {
-    return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'diff' => $diff];
+    return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'operation' => $operation];
 }
 
 /**
@@ -58,11 +58,11 @@ function stringifyIfIndexArray($value)
  * @param mixed $key
  * @param mixed $value1
  * @param mixed $value2
- * @param string $diff
+ * @param string $operation
  * @return array<mixed>
  */
 
-function makeStructureRec($key, $value1, $value2 = null, string $diff = 'unchanged'): array
+function makeStructureRec($key, $value1, $value2 = null, string $operation = 'unchanged'): array
 {
     $iter = function ($value) {
         return isAssociativeArray($value) ?
@@ -73,7 +73,7 @@ function makeStructureRec($key, $value1, $value2 = null, string $diff = 'unchang
     $result1 = $iter($value1);
     $result2 = $iter($value2);
 
-    return ['key' => $key, 'value1' => $result1, 'value2' => $result2, 'diff' => $diff];
+    return ['key' => $key, 'value1' => $result1, 'value2' => $result2, 'operation' => $operation];
 }
 
 /**
