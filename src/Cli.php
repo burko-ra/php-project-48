@@ -21,12 +21,12 @@ Options:
 
 EOF;
 
-function run(): void
+function run(): string
 {
     $args = Docopt::handle(DOC);
     $pathToFile1 = $args['<firstFile>'];
     $pathToFile2 = $args['<secondFile>'];
     $format = $args['--format'];
 
-    gendiff($pathToFile1, $pathToFile2, $format);
+    return gendiff($pathToFile1, $pathToFile2, $format);
 }
