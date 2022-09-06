@@ -2,6 +2,8 @@
 
 namespace Differ\Diff;
 
+use function Functional\sort;
+
 /**
  * @param mixed $key
  * @param mixed $value1
@@ -62,7 +64,7 @@ function stringifyIfIndexArray($value)
 
 function makeStructureRec($key, $value1, $value2 = null, string $diff = 'unchanged'): array
 {
-    $iter = function ($value) use (&$iter) {
+    $iter = function ($value) {
         return isAssociativeArray($value) ?
         array_map(fn($newKey, $newValue) => makeStructureRec($newKey, $newValue), array_keys($value), $value) :
         stringifyIfIndexArray($value);
@@ -86,7 +88,7 @@ function makeDiff(array $file1, array $file2): array
         $keys1 = array_keys($file1);
         $keys2 = array_keys($file2);
         $keys = array_unique(array_merge($keys1, $keys2));
-        sort($keys);
+        $sortedKeys = sort($keys, fn ($left, $right) => strcmp($left, $right));
 
         $callback = function ($key) use ($iter, $file1, $file2) {
             $value1 = $file1[$key] ?? null;
@@ -111,7 +113,7 @@ function makeDiff(array $file1, array $file2): array
             return makeStructureIter($key, $iter($value1, $value2));
         };
 
-        return array_map($callback, $keys);
+        return array_map($callback, $sortedKeys);
     };
 
     return makeStructureIter('', $iter($file1, $file2));
