@@ -23,9 +23,9 @@ EOF;
 
 function getRealPath(string $path): string
 {
-    $addedPart = $path[0] === '/' ? '' : __DIR__ . "/../";
-    $fullPath = $addedPart . $path;
-    return realpath($fullPath);
+    //$addedPart = $path[0] === '/' ? '' : __DIR__ . "/../";
+    //$fullPath = $addedPart . $path;
+    return realpath($path);
 }
 
 function run(): void
