@@ -36,5 +36,5 @@ function formatDiffPlain(array $diff): string
         return $acc;
     };
 
-    return implode("\n", $iter($diff, '', 1, [])) . "\n";
+    return implode("\n", $iter($diff, '', 1, []));
 }
