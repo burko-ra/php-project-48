@@ -62,13 +62,14 @@ function stringifyIfIndexArray($value)
 
 function makeStructureRec($key, $value1, $value2 = null, string $diff = 'unchanged'): array
 {
-    $result1 = isAssociativeArray($value1) ?
-        array_map(fn($newKey, $newValue) => makeStructureRec($newKey, $newValue), array_keys($value1), $value1) :
-        stringifyIfIndexArray($value1);
+    $iter = function ($value) use (&$iter) {
+        return isAssociativeArray($value) ?
+        array_map(fn($newKey, $newValue) => makeStructureRec($newKey, $newValue), array_keys($value), $value) :
+        stringifyIfIndexArray($value);
+    };
 
-    $result2 = isAssociativeArray($value2) ?
-        array_map(fn($newKey, $newValue) => makeStructureRec($newKey, $newValue), array_keys($value2), $value2) :
-        stringifyIfIndexArray($value2);
+    $result1 = $iter($value1);
+    $result2 = $iter($value2);
 
     return ['key' => $key, 'value1' => $result1, 'value2' => $result2, 'diff' => $diff];
 }
