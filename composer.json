@@ -31,7 +31,8 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*",
-        "phpunit/phpunit": "^9"
+        "phpunit/phpunit": "^9",
+        "phpstan/phpstan": "^1.8"
     },
     "bin": [
         "bin/gendiff"
