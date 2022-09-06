@@ -15,14 +15,10 @@ function getRealPath(string $pathToFile): string
 {
     $addedPart = $pathToFile[0] === '/' ? '' : __DIR__ . "/../";
     $fullPath = $addedPart . $pathToFile;
-    try {
-        $realPath = realpath($fullPath);
-        if ($realPath === false) {
-            throw new \Exception("Invalid path to file: '{$pathToFile}'");
-        }
-    } catch (\Exception $e) {
-        print $e->getMessage();
-        exit();
+    
+    $realPath = realpath($fullPath);
+    if ($realPath === false) {
+        throw new \Exception("Invalid path to file: '{$pathToFile}'");
     }
     return $realPath;
 }
@@ -34,15 +30,11 @@ function getRealPath(string $pathToFile): string
 
 function readFile(string $pathToFile): string
 {
-    try {
-        $content = file_get_contents($pathToFile, true);
-        if ($content === false) {
-            throw new \Exception("Cannot read the file: '{$pathToFile}'");
-        }
-    } catch (\Exception $e) {
-        print $e->getMessage();
-        exit();
+    $content = file_get_contents($pathToFile, true);
+    if ($content === false) {
+        throw new \Exception("Cannot read the file: '{$pathToFile}'");
     }
+
     return $content;
 }
 
