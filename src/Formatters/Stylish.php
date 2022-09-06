@@ -54,5 +54,5 @@ function formatDiffStylish(array $diff): string
         return "{\n" . implode("\n", $lines) . "\n" . $indent . "}";
     };
 
-    return $iter($diff, 'value1', 1) . "\n";
+    return $iter($diff, 'value1', 1);
 }
