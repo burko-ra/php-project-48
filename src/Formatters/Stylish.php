@@ -43,20 +43,25 @@ function formatDiffStylish(array $operation): string
             $operation = getOperation($item);
 
             $value1 = $iter($item, 'value1', $depth + 1);
+            $value2 = $iter($item, 'value2', $depth + 1);
 
-            if ($operation !== 'updated') {
-                $sign = OPERATION_SIGNS[$operation];
-                return [...$acc, "{$indent}  {$sign} {$key}: {$value1}"];
+            if ($operation === 'updated') {
+                $sign1 = OPERATION_SIGNS['removed'];
+                $sign2 = OPERATION_SIGNS['added'];
+                return [
+                    ...$acc,
+                    "{$indent}  {$sign1} {$key}: {$value1}",
+                    "{$indent}  {$sign2} {$key}: {$value2}"
+                ];
             }
 
-            $value2 = $iter($item, 'value2', $depth + 1);
-            $sign1 = OPERATION_SIGNS['removed'];
-            $sign2 = OPERATION_SIGNS['added'];
-            return [
-                ...$acc,
-                "{$indent}  {$sign1} {$key}: {$value2}",
-                "{$indent}  {$sign2} {$key}: {$value1}"
-            ];
+            $sign = OPERATION_SIGNS[$operation];
+
+            if ($operation === 'added') {
+                return [...$acc, "{$indent}  {$sign} {$key}: {$value2}"];
+            }
+
+            return [...$acc, "{$indent}  {$sign} {$key}: {$value1}"];
         };
 
         $lines = array_reduce($children, $callback, []);

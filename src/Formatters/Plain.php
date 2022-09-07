@@ -29,8 +29,10 @@ function formatDiffPlain(array $operation): string
         $operation = getOperation($currentValue);
 
         $value1 = is_array(getValue1($currentValue)) ? "[complex value]" : toStringPlain(getValue1($currentValue));
+        $value2 = is_array(getValue2($currentValue)) ? "[complex value]" : toStringPlain(getValue2($currentValue));
+
         if ($operation === 'added') {
-            return array_merge($acc, ["Property '{$property}' was added with value: {$value1}"]);
+            return array_merge($acc, ["Property '{$property}' was added with value: {$value2}"]);
         }
 
         if ($operation === 'removed') {
@@ -38,8 +40,7 @@ function formatDiffPlain(array $operation): string
         }
 
         if ($operation === 'updated') {
-            $value2 = is_array(getValue2($currentValue)) ? "[complex value]" : toStringPlain(getValue2($currentValue));
-            return array_merge($acc, ["Property '{$property}' was updated. From {$value2} to {$value1}"]);
+            return array_merge($acc, ["Property '{$property}' was updated. From {$value1} to {$value2}"]);
         }
 
         if ($operation === 'changed') {

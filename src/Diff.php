@@ -146,7 +146,7 @@ function makeDiff(array $file1, array $file2): array
             $value2 = $file2[$key] ?? null;
 
             if (!array_key_exists($key, $file1)) {
-                return makeStructureRec($key, $value2, null, 'added');
+                return makeStructureRec($key, null, $value2, 'added');
             }
 
             if (!array_key_exists($key, $file2)) {
@@ -154,11 +154,11 @@ function makeDiff(array $file1, array $file2): array
             }
 
             if ($value1 === $value2) {
-                return makeStructureRec($key, $value1, null, 'unchanged');
+                return makeStructureRec($key, $value1, $value2, 'unchanged');
             }
 
             if (!isAssociativeArray($value1) || !isAssociativeArray($value2)) {
-                return makeStructureRec($key, $value2, $value1, 'updated');
+                return makeStructureRec($key, $value1, $value2, 'updated');
             }
 
             return makeStructureIter($key, $iter($value1, $value2));

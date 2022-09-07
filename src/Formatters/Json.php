@@ -33,11 +33,13 @@ function makeAssociativeArray($value)
 function makeStructure(string $property, array $element): array
 {
     $operation = getOperation($element);
-    $value = getValue1($element);
+    $value1 = getValue1($element);
+    $value2 = getValue2($element);
 
     return [$property => [
         'operation' => $operation,
-        'value' => makeAssociativeArray($value)
+        'value1' => makeAssociativeArray($value1),
+        'value2' => makeAssociativeArray($value2)
         ]
     ];
 }
@@ -62,7 +64,6 @@ function formatDiffJson(array $operation): string
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
         $property = $currentPath . getKey($currentValue);
         $operation = getOperation($currentValue);
-        $value1 = is_array(getValue1($currentValue)) ? "[complex value]" : toStringJson(getValue1($currentValue));
 
         if ($operation === 'added' || $operation === 'removed' || $operation === 'updated') {
             return array_merge($acc, makeStructure($property, $currentValue));
