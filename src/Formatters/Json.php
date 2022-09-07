@@ -78,5 +78,9 @@ function formatDiffJson(array $operation): string
         return $acc;
     };
 
-    return json_encode($iter($operation, '', 1, []), JSON_PRETTY_PRINT);
+    $encoded = json_encode($iter($operation, '', 1, []), JSON_PRETTY_PRINT);
+    if ($encoded === false) {
+        throw new \Exception("Invalid diff. Cannot encode to json");
+    }
+    return $encoded;
 }
