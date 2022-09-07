@@ -2,6 +2,10 @@
 
 namespace Differ\Formatters\Stylish;
 
+use function Differ\Diff\getKey;
+use function Differ\Diff\getValue;
+use function Differ\Diff\getOperation;
+
 const OPERATION_SIGNS = [
     'added' => '+',
     'removed' => '-',
@@ -27,7 +31,7 @@ function toStringStylish($value): string
 function formatDiffStylish(array $operation): string
 {
     $iter = function ($currentValue, $typeOfValue, $depth) use (&$iter) {
-        $children = $currentValue[$typeOfValue];
+        $children = getValue($currentValue, $typeOfValue);
         if (!is_array($children)) {
             return toStringStylish($children);
         }
@@ -35,8 +39,8 @@ function formatDiffStylish(array $operation): string
         $indent = str_repeat('    ', $depth - 1);
 
         $callback = function ($acc, $item) use ($iter, $indent, $depth) {
-            $key = $item['key'];
-            $operation = $item['operation'];
+            $key = getKey($item);
+            $operation = getOperation($item);
 
             $value1 = $iter($item, 'value1', $depth + 1);
 

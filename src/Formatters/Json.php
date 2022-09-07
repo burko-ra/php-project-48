@@ -2,6 +2,11 @@
 
 namespace Differ\Formatters\Json;
 
+use function Differ\Diff\getKey;
+use function Differ\Diff\getValue1;
+use function Differ\Diff\getValue2;
+use function Differ\Diff\getOperation;
+
 /**
  * @param mixed $value
  * @return mixed
@@ -13,8 +18,8 @@ function makeAssociativeArray($value)
         return $value;
     }
     return array_reduce($value, function ($acc, $item) {
-        $newKey = $item['key'];
-        $newValue = makeAssociativeArray($item['value1']);
+        $newKey = getKey($item);
+        $newValue = makeAssociativeArray(getValue1($item));
         return array_merge($acc, [$newKey => $newValue]);
     }, []);
 }
@@ -27,14 +32,14 @@ function makeAssociativeArray($value)
 
 function makeStructure(string $property, array $element): array
 {
-    $operation = $element['operation'];
-    $value = $element['value1'];
-    $structure = [$property => [
+    $operation = getOperation($element);
+    $value = getValue1($element);
+
+    return [$property => [
         'operation' => $operation,
         'value' => makeAssociativeArray($value)
         ]
     ];
-    return $structure;
 }
 
 /**
@@ -55,16 +60,16 @@ function toStringJson($value): string
 function formatDiffJson(array $operation): string
 {
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
-        $property = $currentPath . $currentValue['key'];
-        $operation = $currentValue['operation'];
-        $value1 = is_array($currentValue['value1']) ? "[complex value]" : toStringJson($currentValue['value1']);
+        $property = $currentPath . getKey($currentValue);
+        $operation = getOperation($currentValue);
+        $value1 = is_array(getValue1($currentValue)) ? "[complex value]" : toStringJson(getValue1($currentValue));
 
         if ($operation === 'added' || $operation === 'removed' || $operation === 'updated') {
             return array_merge($acc, makeStructure($property, $currentValue));
         }
 
         if ($operation === 'changed') {
-            $children = $currentValue['value1'];
+            $children = getValue1($currentValue);
             $newPath = ($depth === 1) ? $property : "{$property}.";
             return array_reduce($children, fn($newAcc, $item) => $iter($item, $newPath, $depth + 1, $newAcc), $acc);
         }

@@ -18,6 +18,57 @@ function makeStructureIter($key, $value1, $value2 = null, string $operation = 'c
 }
 
 /**
+ * @param array<mixed> $diff
+ * @return mixed
+ */
+
+function getKey($diff)
+{
+    return $diff['key'];
+}
+
+/**
+ * @param array<mixed> $diff
+ * @return mixed
+ */
+
+function getValue1($diff)
+{
+    return $diff['value1'];
+}
+
+/**
+ * @param array<mixed> $diff
+ * @return mixed
+ */
+
+function getValue2($diff)
+{
+    return $diff['value2'];
+}
+
+/**
+ * @param array<mixed> $diff
+ * @return string
+ */
+
+function getOperation($diff): string
+{
+    return $diff['operation'];
+}
+
+/**
+ * @param array<mixed> $diff
+ * @param string $typeOfValue
+ * @return mixed
+ */
+
+function getValue($diff, string $typeOfValue)
+{
+    return $diff[$typeOfValue];
+}
+
+/**
  * @param mixed $value
  * @return bool
  */
@@ -73,7 +124,7 @@ function makeStructureRec($key, $value1, $value2 = null, string $operation = 'un
     $result1 = $iter($value1);
     $result2 = $iter($value2);
 
-    return ['key' => $key, 'value1' => $result1, 'value2' => $result2, 'operation' => $operation];
+    return makeStructureIter($key, $result1, $result2, $operation);
 }
 
 /**
