@@ -45,16 +45,6 @@ function makeStructure(string $property, array $element): array
 }
 
 /**
- * @param mixed $value
- * @return string
- */
-
-function toStringJson($value): string
-{
-    return is_null($value) ? "null" : var_export($value, true);
-}
-
-/**
  * @param array<mixed> $operation
  * @return string
  */
