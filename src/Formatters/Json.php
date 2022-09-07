@@ -78,5 +78,5 @@ function formatDiffJson(array $operation): string
         return $acc;
     };
 
-    return json_encode($iter($operation, '', 1, []), JSON_PRETTY_PRINT) . "\n";
+    return json_encode($iter($operation, '', 1, []), JSON_PRETTY_PRINT);
 }
