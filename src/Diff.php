@@ -146,11 +146,11 @@ function makeDiff(array $file1, array $file2): array
             $value2 = $file2[$key] ?? null;
 
             if (!array_key_exists($key, $file1)) {
-                return makeStructureRec($key, null, $value2, 'added');
+                return makeStructureRec($key, $value1, $value2, 'added');
             }
 
             if (!array_key_exists($key, $file2)) {
-                return makeStructureRec($key, $value1, null, 'removed');
+                return makeStructureRec($key, $value1, $value2, 'removed');
             }
 
             if ($value1 === $value2) {
