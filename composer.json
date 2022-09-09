@@ -3,9 +3,6 @@
     "description": "Educational Project 2: Difference Calculator",
     "license": "MIT",
     "autoload": {
-        "psr-4": {
-            "Hexlet\\Code\\": "src/"
-        },
         "files": [
             "vendor/docopt/docopt/src/docopt.php",
             "vendor/symfony/yaml/Yaml.php",
