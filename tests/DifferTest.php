@@ -10,41 +10,81 @@ use function Differ\Diff\stringifyIfIndexArray;
 
 class DifferTest extends TestCase
 {
-    public function testGendiffStylish(): void
+
+    /**
+     * @dataProvider gendiffWithoutFormatArgumentProvider
+     */
+
+    public function testGendiffWithoutFormatArgument($file1, $file2, $fileResult): void
     {
-        $file1 = 'tests/fixtures/file1.json';
-        $file2 = 'tests/fixtures/file2.json';
-        $file3 = 'tests/fixtures/file1.yml';
-        $file4 = 'tests/fixtures/file2.yaml';
-        $fileResult = 'tests/fixtures/gendiffStylish';
-
-        $result = readFile($fileResult);
-
-        $this->assertEquals($result, gendiff($file1, $file2));
-        $this->assertEquals($result, gendiff($file3, $file4));
-        $this->assertEquals($result, gendiff($file1, $file2), 'stylish');
+        $this->assertStringEqualsFile($fileResult, gendiff($file1, $file2));
     }
 
-    public function testGendiffPlain(): void
+    public function gendiffWithoutFormatArgumentProvider()
     {
-        $file1 = 'tests/fixtures/file1.json';
-        $file2 = 'tests/fixtures/file2.yaml';
-        $fileResult = 'tests/fixtures/gendiffPlain';
-
-        $result = readFile($fileResult);
-
-        $this->assertEquals($result, gendiff($file1, $file2, 'plain'));
+        return [
+            'test with two json files (no "format" argument)' => [
+                'tests/fixtures/file1.json',
+                'tests/fixtures/file2.json',
+                'tests/fixtures/gendiffStylish'
+            ],
+            'test with two yaml files (no "format" argument)' => [
+                'tests/fixtures/file1.yml',
+                'tests/fixtures/file2.yaml',
+                'tests/fixtures/gendiffStylish'
+            ]
+        ];
     }
 
-    public function testGendiffJson(): void
+    /**
+     * @dataProvider gendiffWithFormatArgumentProvider
+     */
+
+    public function testGendiffWithFormatArgument($file1, $file2, $format, $fileResult): void
     {
-        $file1 = 'tests/fixtures/file1.json';
-        $file2 = 'tests/fixtures/file2.yaml';
-        $fileResult = 'tests/fixtures/gendiffJson';
+        $this->assertStringEqualsFile($fileResult, gendiff($file1, $file2, $format));
+    }
 
-        $result = readFile($fileResult);
-
-        $this->assertEquals($result, gendiff($file1, $file2, 'json'));
+    public function gendiffWithFormatArgumentProvider()
+    {
+        return [
+            'test JSON-stylish' => [
+                'tests/fixtures/file1.json',
+                'tests/fixtures/file2.json',
+                'stylish',
+                'tests/fixtures/gendiffStylish',
+            ],
+            'test YAML-stylish' => [
+                'tests/fixtures/file1.yml',
+                'tests/fixtures/file2.yaml',
+                'stylish',
+                'tests/fixtures/gendiffStylish',
+            ],
+            'test JSON-plain' => [
+                'tests/fixtures/file1.json',
+                'tests/fixtures/file2.json',
+                'plain',
+                'tests/fixtures/gendiffPlain',
+            ],
+            'test YAML-plain' => [
+                'tests/fixtures/file1.yml',
+                'tests/fixtures/file2.yaml',
+                'plain',
+                'tests/fixtures/gendiffPlain',
+            ],
+            'test JSON-json' => [
+                'tests/fixtures/file1.json',
+                'tests/fixtures/file2.json',
+                'json',
+                'tests/fixtures/gendiffJson',
+            ],
+            'test YAML-json' => [
+                'tests/fixtures/file1.yml',
+                'tests/fixtures/file2.yaml',
+                'json',
+                'tests/fixtures/gendiffJson',
+            ]
+        ];
     }
 
     public function testStringifyIfIndexArray(): void
