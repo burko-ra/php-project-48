@@ -8,7 +8,7 @@ use function Differ\Differ\gendiff;
 use function Differ\Differ\readFile;
 use function Differ\Diff\stringifyIfIndexArray;
 
-class ComparisonTest extends TestCase
+class DifferTest extends TestCase
 {
     public function testGendiffStylish(): void
     {
