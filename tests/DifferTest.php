@@ -12,15 +12,23 @@ class DifferTest extends TestCase
 {
 
     /**
+     * @param string $file1
+     * @param string $file2
+     * @param string $fileResult
+     * @return void
      * @dataProvider gendiffWithoutFormatArgumentProvider
      */
 
-    public function testGendiffWithoutFormatArgument($file1, $file2, $fileResult): void
+    public function testGendiffWithoutFormatArgument(string $file1, string $file2, string $fileResult): void
     {
         $this->assertStringEqualsFile($fileResult, gendiff($file1, $file2));
     }
 
-    public function gendiffWithoutFormatArgumentProvider()
+    /**
+     * @return array<string, array<int, string>>
+     */
+
+    public function gendiffWithoutFormatArgumentProvider(): array
     {
         return [
             'test with two json files (no "format" argument)' => [
@@ -37,6 +45,11 @@ class DifferTest extends TestCase
     }
 
     /**
+     * @param string $file1
+     * @param string $file2
+     * @param string $format
+     * @param string $fileResult
+     * @return void
      * @dataProvider gendiffWithFormatArgumentProvider
      */
 
@@ -45,7 +58,11 @@ class DifferTest extends TestCase
         $this->assertStringEqualsFile($fileResult, gendiff($file1, $file2, $format));
     }
 
-    public function gendiffWithFormatArgumentProvider()
+    /**
+     * @return array<string, array<int, string>>
+     */
+
+    public function gendiffWithFormatArgumentProvider(): array
     {
         return [
             'test JSON-stylish' => [
@@ -86,6 +103,10 @@ class DifferTest extends TestCase
             ]
         ];
     }
+
+    /**
+     * @return void
+     */
 
     public function testStringifyIfIndexArray(): void
     {
