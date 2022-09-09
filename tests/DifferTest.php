@@ -10,7 +10,6 @@ use function Differ\Diff\stringifyIfIndexArray;
 
 class DifferTest extends TestCase
 {
-
     /**
      * @param string $file1
      * @param string $file2
