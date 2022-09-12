@@ -59,7 +59,15 @@ function getOperation($diff): string
  */
 function getValue($diff, string $typeOfValue)
 {
-    return $diff[$typeOfValue];
+    if ($typeOfValue === 'value1') {
+        return getValue1($diff);
+    }
+
+    if ($typeOfValue === 'value2') {
+        return getValue2($diff);
+    }
+
+    throw new \Exception("Selector must be only value1 or value2, '{$typeOfValue}' given\n");
 }
 
 /**
