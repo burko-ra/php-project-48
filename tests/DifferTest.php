@@ -13,46 +13,13 @@ class DifferTest extends TestCase
     /**
      * @param string $file1
      * @param string $file2
-     * @param string $fileResult
-     * @return void
-     * @dataProvider gendiffWithoutFormatArgumentProvider
-     */
-
-    public function testGendiffWithoutFormatArgument(string $file1, string $file2, string $fileResult): void
-    {
-        $this->assertStringEqualsFile($fileResult, gendiff($file1, $file2));
-    }
-
-    /**
-     * @return array<string, array<int, string>>
-     */
-
-    public function gendiffWithoutFormatArgumentProvider(): array
-    {
-        return [
-            'test with two json files (no "format" argument)' => [
-                'tests/fixtures/file1.json',
-                'tests/fixtures/file2.json',
-                'tests/fixtures/gendiffStylish'
-            ],
-            'test with two yaml files (no "format" argument)' => [
-                'tests/fixtures/file1.yml',
-                'tests/fixtures/file2.yaml',
-                'tests/fixtures/gendiffStylish'
-            ]
-        ];
-    }
-
-    /**
-     * @param string $file1
-     * @param string $file2
      * @param string $format
      * @param string $fileResult
      * @return void
-     * @dataProvider gendiffWithFormatArgumentProvider
+     * @dataProvider gendiffProvider
      */
 
-    public function testGendiffWithFormatArgument($file1, $file2, $format, $fileResult): void
+    public function testGendiff($file1, $file2, $format, $fileResult): void
     {
         $this->assertStringEqualsFile($fileResult, gendiff($file1, $file2, $format));
     }
@@ -61,7 +28,7 @@ class DifferTest extends TestCase
      * @return array<string, array<int, string>>
      */
 
-    public function gendiffWithFormatArgumentProvider(): array
+    public function gendiffProvider(): array
     {
         return [
             'test JSON-stylish' => [
