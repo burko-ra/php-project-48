@@ -7,19 +7,17 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * @param string $file
- * @param string $pathToFile
+ * @param string $extension
  * @return array<mixed>
  */
-function parse(string $file, string $pathToFile): array
+function parse(string $file, string $extension): array
 {
-    $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
-
     if ($extension === 'json') {
-        return parseJson($file, $pathToFile);
+        return parseJson($file);
     }
 
     if ($extension === 'yml' || $extension === 'yaml') {
-        return Yaml::parseFile($pathToFile);
+        return Yaml::parse($file);
     }
 
     throw new \Exception("Unknown extension: '{$extension}'");
@@ -27,14 +25,13 @@ function parse(string $file, string $pathToFile): array
 
 /**
  * @param string $file
- * @param string $pathToFile
  * @return array<mixed>
  */
-function parseJson(string $file, string $pathToFile): array
+function parseJson(string $file): array
 {
     $decoded = json_decode($file, true);
     if ($decoded === null) {
-        throw new \Exception("This JSON cannot be decoded: '{$pathToFile}'\n");
+        throw new \Exception("Cannot parse the file\n");
     }
     return $decoded;
 }
