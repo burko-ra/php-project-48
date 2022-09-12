@@ -19,7 +19,7 @@ function parse(string $file, string $pathToFile): array
     }
 
     if ($extension === 'yml' || $extension === 'yaml') {
-        return parseYaml($pathToFile);
+        return Yaml::parseFile($pathToFile);
     }
 
     throw new \Exception("Unknown extension: '{$extension}'");
@@ -37,13 +37,4 @@ function parseJson(string $file, string $pathToFile): array
         throw new \Exception("This JSON cannot be decoded: '{$pathToFile}'\n");
     }
     return $decoded;
-}
-
-/**
- * @param string $pathToFile
- * @return array<mixed>
- */
-function parseYaml(string $pathToFile): array
-{
-    return Yaml::parseFile($pathToFile);
 }
