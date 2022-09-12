@@ -25,10 +25,10 @@ function toStringPlain($value): string
 }
 
 /**
- * @param array<mixed> $operation
+ * @param array<mixed> $diff
  * @return string
  */
-function formatDiffPlain(array $operation): string
+function formatDiffPlain(array $diff): string
 {
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
         $property = $currentPath . getKey($currentValue);
@@ -58,5 +58,5 @@ function formatDiffPlain(array $operation): string
         return $acc;
     };
 
-    return implode("\n", $iter($operation, '', 1, []));
+    return implode("\n", $iter($diff, '', 1, []));
 }

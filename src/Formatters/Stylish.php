@@ -16,10 +16,10 @@ function toStringStylish($value): string
 }
 
 /**
- * @param array<mixed> $operation
+ * @param array<mixed> $diff
  * @return string
  */
-function formatDiffStylish(array $operation): string
+function formatDiffStylish(array $diff): string
 {
     $iter = function ($currentValue, $typeOfValue, $depth) use (&$iter) {
         $children = getValue($currentValue, $typeOfValue);
@@ -59,5 +59,5 @@ function formatDiffStylish(array $operation): string
         return "{\n" . implode("\n", $lines) . "\n" . $indent . "}";
     };
 
-    return $iter($operation, 'value1', 1);
+    return $iter($diff, 'value1', 1);
 }
