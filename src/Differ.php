@@ -40,7 +40,7 @@ function readFile(string $pathToFile): string
  * @param string $pathToFile
  * @return array<mixed>
  */
-function prepareFileToComparison(string $pathToFile): array
+function getContentAndParse(string $pathToFile): array
 {
     $realpath = getRealPath($pathToFile);
     $file = readFile($realpath);
@@ -56,8 +56,8 @@ function prepareFileToComparison(string $pathToFile): array
  */
 function gendiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish'): string
 {
-    $file1 = prepareFileToComparison($pathToFile1);
-    $file2 = prepareFileToComparison($pathToFile2);
+    $file1 = getContentAndParse($pathToFile1);
+    $file2 = getContentAndParse($pathToFile2);
     $diff = makeDiff($file1, $file2);
     return formatDiff($diff, $format);
 }
