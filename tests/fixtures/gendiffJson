@@ -1,73 +1,180 @@
 {
-    "common.follow": {
-        "operation": "added",
-        "value1": null,
-        "value2": false
-    },
-    "common.setting2": {
-        "operation": "removed",
-        "value1": 200,
-        "value2": null
-    },
-    "common.setting3": {
-        "operation": "updated",
-        "value1": true,
-        "value2": null
-    },
-    "common.setting4": {
-        "operation": "added",
-        "value1": null,
-        "value2": "blah blah"
-    },
-    "common.setting5": {
-        "operation": "added",
-        "value1": null,
-        "value2": {
-            "key5": "value5"
-        }
-    },
-    "common.setting6.doge.wow": {
-        "operation": "updated",
-        "value1": "",
-        "value2": "so much"
-    },
-    "common.setting6.ops": {
-        "operation": "added",
-        "value1": null,
-        "value2": "vops"
-    },
-    "group1.baz": {
-        "operation": "updated",
-        "value1": "bas",
-        "value2": "bars"
-    },
-    "group1.nest": {
-        "operation": "updated",
-        "value1": {
-            "key": "value"
-        },
-        "value2": "str"
-    },
-    "group2": {
-        "operation": "removed",
-        "value1": {
-            "abc": 12345,
-            "deep": {
-                "id": 45
-            }
-        },
-        "value2": null
-    },
-    "group3": {
-        "operation": "added",
-        "value1": null,
-        "value2": {
-            "deep": {
-                "id": {
-                    "number": 45
+    "key": "",
+    "value1": [
+        {
+            "key": "common",
+            "value1": [
+                {
+                    "key": "follow",
+                    "value1": null,
+                    "value2": false,
+                    "operation": "added"
+                },
+                {
+                    "key": "setting1",
+                    "value1": "Value 1",
+                    "value2": "Value 1",
+                    "operation": "unchanged"
+                },
+                {
+                    "key": "setting2",
+                    "value1": 200,
+                    "value2": null,
+                    "operation": "removed"
+                },
+                {
+                    "key": "setting3",
+                    "value1": true,
+                    "value2": null,
+                    "operation": "updated"
+                },
+                {
+                    "key": "setting4",
+                    "value1": null,
+                    "value2": "blah blah",
+                    "operation": "added"
+                },
+                {
+                    "key": "setting5",
+                    "value1": null,
+                    "value2": [
+                        {
+                            "key": "key5",
+                            "value1": "value5",
+                            "value2": null,
+                            "operation": "unchanged"
+                        }
+                    ],
+                    "operation": "added"
+                },
+                {
+                    "key": "setting6",
+                    "value1": [
+                        {
+                            "key": "doge",
+                            "value1": [
+                                {
+                                    "key": "wow",
+                                    "value1": "",
+                                    "value2": "so much",
+                                    "operation": "updated"
+                                }
+                            ],
+                            "value2": null,
+                            "operation": "changed"
+                        },
+                        {
+                            "key": "key",
+                            "value1": "value",
+                            "value2": "value",
+                            "operation": "unchanged"
+                        },
+                        {
+                            "key": "ops",
+                            "value1": null,
+                            "value2": "vops",
+                            "operation": "added"
+                        }
+                    ],
+                    "value2": null,
+                    "operation": "changed"
                 }
-            },
-            "fee": 100500
+            ],
+            "value2": null,
+            "operation": "changed"
+        },
+        {
+            "key": "group1",
+            "value1": [
+                {
+                    "key": "baz",
+                    "value1": "bas",
+                    "value2": "bars",
+                    "operation": "updated"
+                },
+                {
+                    "key": "foo",
+                    "value1": "bar",
+                    "value2": "bar",
+                    "operation": "unchanged"
+                },
+                {
+                    "key": "nest",
+                    "value1": [
+                        {
+                            "key": "key",
+                            "value1": "value",
+                            "value2": null,
+                            "operation": "unchanged"
+                        }
+                    ],
+                    "value2": "str",
+                    "operation": "updated"
+                }
+            ],
+            "value2": null,
+            "operation": "changed"
+        },
+        {
+            "key": "group2",
+            "value1": [
+                {
+                    "key": "abc",
+                    "value1": 12345,
+                    "value2": null,
+                    "operation": "unchanged"
+                },
+                {
+                    "key": "deep",
+                    "value1": [
+                        {
+                            "key": "id",
+                            "value1": 45,
+                            "value2": null,
+                            "operation": "unchanged"
+                        }
+                    ],
+                    "value2": null,
+                    "operation": "unchanged"
+                }
+            ],
+            "value2": null,
+            "operation": "removed"
+        },
+        {
+            "key": "group3",
+            "value1": null,
+            "value2": [
+                {
+                    "key": "deep",
+                    "value1": [
+                        {
+                            "key": "id",
+                            "value1": [
+                                {
+                                    "key": "number",
+                                    "value1": 45,
+                                    "value2": null,
+                                    "operation": "unchanged"
+                                }
+                            ],
+                            "value2": null,
+                            "operation": "unchanged"
+                        }
+                    ],
+                    "value2": null,
+                    "operation": "unchanged"
+                },
+                {
+                    "key": "fee",
+                    "value1": 100500,
+                    "value2": null,
+                    "operation": "unchanged"
+                }
+            ],
+            "operation": "added"
         }
-    }
+    ],
+    "value2": null,
+    "operation": "changed"
 }
