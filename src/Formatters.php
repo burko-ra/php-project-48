@@ -11,7 +11,6 @@ use function Differ\Formatters\Json\formatDiffJson;
  * @param string $format
  * @return string
  */
-
 function formatDiff(array $diff, string $format): string
 {
     switch ($format) {

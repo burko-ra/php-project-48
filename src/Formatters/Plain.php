@@ -11,7 +11,6 @@ use function Differ\Diff\getOperation;
  * @param mixed $value
  * @return string
  */
-
 function toStringPlain($value): string
 {
     return is_null($value) ? "null" : var_export($value, true);
@@ -21,7 +20,6 @@ function toStringPlain($value): string
  * @param array<mixed> $operation
  * @return string
  */
-
 function formatDiffPlain(array $operation): string
 {
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {

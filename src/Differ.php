@@ -10,7 +10,6 @@ use function Differ\Diff\makeDiff;
  * @param string $pathToFile
  * @return string
  */
-
 function getRealPath(string $pathToFile): string
 {
     $addedPart = $pathToFile[0] === '/' ? '' : __DIR__ . "/../";
@@ -27,7 +26,6 @@ function getRealPath(string $pathToFile): string
  * @param string $pathToFile
  * @return string
  */
-
 function readFile(string $pathToFile): string
 {
     $content = file_get_contents($pathToFile, true);
@@ -42,7 +40,6 @@ function readFile(string $pathToFile): string
  * @param string $pathToFile
  * @return array<mixed>
  */
-
 function prepareFileToComparison(string $pathToFile): array
 {
     $realpath = getRealPath($pathToFile);
@@ -57,7 +54,6 @@ function prepareFileToComparison(string $pathToFile): array
  * @param string $format
  * @return string
  */
-
 function gendiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish'): string
 {
     $file1 = prepareFileToComparison($pathToFile1);

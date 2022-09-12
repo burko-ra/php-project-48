@@ -18,7 +18,6 @@ class DifferTest extends TestCase
      * @return void
      * @dataProvider gendiffProvider
      */
-
     public function testGendiff($file1, $file2, $format, $fileResult): void
     {
         $this->assertStringEqualsFile($fileResult, gendiff($file1, $file2, $format));
@@ -27,7 +26,6 @@ class DifferTest extends TestCase
     /**
      * @return array<string, array<int, string>>
      */
-
     public function gendiffProvider(): array
     {
         return [
@@ -73,7 +71,6 @@ class DifferTest extends TestCase
     /**
      * @return void
      */
-
     public function testStringifyIfIndexArray(): void
     {
         $var1 = 1;

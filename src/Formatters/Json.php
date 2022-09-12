@@ -11,7 +11,6 @@ use function Differ\Diff\getOperation;
  * @param mixed $value
  * @return mixed
  */
-
 function makeAssociativeArray($value)
 {
     if (!is_array($value)) {
@@ -29,7 +28,6 @@ function makeAssociativeArray($value)
  * @param array<mixed> $element
  * @return array<mixed>
  */
-
 function makeStructure(string $property, array $element): array
 {
     $operation = getOperation($element);
@@ -48,7 +46,6 @@ function makeStructure(string $property, array $element): array
  * @param array<mixed> $operation
  * @return string
  */
-
 function formatDiffJson(array $operation): string
 {
     $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {

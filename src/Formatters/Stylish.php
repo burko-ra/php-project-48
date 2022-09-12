@@ -17,7 +17,6 @@ const OPERATION_SIGNS = [
  * @param mixed $value
  * @return string
  */
-
 function toStringStylish($value): string
 {
     return is_null($value) ? "null" : trim(var_export($value, true), "'");
@@ -27,7 +26,6 @@ function toStringStylish($value): string
  * @param array<mixed> $operation
  * @return string
  */
-
 function formatDiffStylish(array $operation): string
 {
     $iter = function ($currentValue, $typeOfValue, $depth) use (&$iter) {

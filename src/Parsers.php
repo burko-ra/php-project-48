@@ -10,7 +10,6 @@ use Symfony\Component\Yaml\Exception\ParseException;
  * @param string $pathToFile
  * @return array<mixed>
  */
-
 function parse(string $file, string $pathToFile): array
 {
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
@@ -31,7 +30,6 @@ function parse(string $file, string $pathToFile): array
  * @param string $pathToFile
  * @return array<mixed>
  */
-
 function parseJson(string $file, string $pathToFile): array
 {
     $decoded = json_decode($file, true);
@@ -45,7 +43,6 @@ function parseJson(string $file, string $pathToFile): array
  * @param string $pathToFile
  * @return array<mixed>
  */
-
 function parseYaml(string $pathToFile): array
 {
     return Yaml::parseFile($pathToFile);

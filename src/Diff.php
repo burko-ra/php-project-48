@@ -11,7 +11,6 @@ use function Functional\sort;
  * @param string $operation
  * @return array<mixed>
  */
-
 function makeStructureIter($key, $value1, $value2 = null, string $operation = 'changed'): array
 {
     return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'operation' => $operation];
@@ -21,7 +20,6 @@ function makeStructureIter($key, $value1, $value2 = null, string $operation = 'c
  * @param array<mixed> $diff
  * @return mixed
  */
-
 function getKey($diff)
 {
     return $diff['key'];
@@ -31,7 +29,6 @@ function getKey($diff)
  * @param array<mixed> $diff
  * @return mixed
  */
-
 function getValue1($diff)
 {
     return $diff['value1'];
@@ -41,7 +38,6 @@ function getValue1($diff)
  * @param array<mixed> $diff
  * @return mixed
  */
-
 function getValue2($diff)
 {
     return $diff['value2'];
@@ -51,7 +47,6 @@ function getValue2($diff)
  * @param array<mixed> $diff
  * @return string
  */
-
 function getOperation($diff): string
 {
     return $diff['operation'];
@@ -62,7 +57,6 @@ function getOperation($diff): string
  * @param string $typeOfValue
  * @return mixed
  */
-
 function getValue($diff, string $typeOfValue)
 {
     return $diff[$typeOfValue];
@@ -72,7 +66,6 @@ function getValue($diff, string $typeOfValue)
  * @param mixed $value
  * @return bool
  */
-
 function isAssociativeArray($value): bool
 {
     if (!is_array($value)) {
@@ -86,7 +79,6 @@ function isAssociativeArray($value): bool
  * @param mixed $value
  * @return mixed
  */
-
 function stringifyIfIndexArray($value)
 {
     if (!is_array($value) || isAssociativeArray($value)) {
@@ -112,7 +104,6 @@ function stringifyIfIndexArray($value)
  * @param string $operation
  * @return array<mixed>
  */
-
 function makeStructureRec($key, $value1, $value2 = null, string $operation = 'unchanged'): array
 {
     $iter = function ($value) {
@@ -132,7 +123,6 @@ function makeStructureRec($key, $value1, $value2 = null, string $operation = 'un
  * @param array<mixed> $file2
  * @return array<mixed>
  */
-
 function makeDiff(array $file1, array $file2): array
 {
     $iter = function ($file1, $file2) use (&$iter) {
