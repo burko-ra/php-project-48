@@ -6,13 +6,6 @@ use function Differ\Diff\getKey;
 use function Differ\Diff\getValue;
 use function Differ\Diff\getOperation;
 
-const OPERATION_SIGNS = [
-    'added' => '+',
-    'removed' => '-',
-    'unchanged' => ' ',
-    'changed' => ' ',
-];
-
 /**
  * @param mixed $value
  * @return string
@@ -43,23 +36,23 @@ function formatDiffStylish(array $operation): string
             $value1 = $iter($item, 'value1', $depth + 1);
             $value2 = $iter($item, 'value2', $depth + 1);
 
+            if ($operation === 'added') {
+                return [...$acc, "{$indent}  + {$key}: {$value2}"];
+            }
+
+            if ($operation === 'removed') {
+                return [...$acc, "{$indent}  - {$key}: {$value1}"];
+            }
+
             if ($operation === 'updated') {
-                $sign1 = OPERATION_SIGNS['removed'];
-                $sign2 = OPERATION_SIGNS['added'];
                 return [
                     ...$acc,
-                    "{$indent}  {$sign1} {$key}: {$value1}",
-                    "{$indent}  {$sign2} {$key}: {$value2}"
+                    "{$indent}  - {$key}: {$value1}",
+                    "{$indent}  + {$key}: {$value2}"
                 ];
             }
 
-            $sign = OPERATION_SIGNS[$operation];
-
-            if ($operation === 'added') {
-                return [...$acc, "{$indent}  {$sign} {$key}: {$value2}"];
-            }
-
-            return [...$acc, "{$indent}  {$sign} {$key}: {$value1}"];
+            return [...$acc, "{$indent}    {$key}: {$value1}"];
         };
 
         $lines = array_reduce($children, $callback, []);
