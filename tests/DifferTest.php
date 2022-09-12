@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 use function Differ\Differ\gendiff;
 use function Differ\Differ\readFile;
-use function Differ\Diff\stringifyIfIndexArray;
 
 class DifferTest extends TestCase
 {
@@ -66,21 +65,5 @@ class DifferTest extends TestCase
                 'tests/fixtures/gendiffJson',
             ]
         ];
-    }
-
-    /**
-     * @return void
-     */
-    public function testStringifyIfIndexArray(): void
-    {
-        $var1 = 1;
-        $var2 = ['key1' => 'value1', 'key2' => ['key3' => 'value3']];
-        $var3 = [1, 4, [7, 10, [13]]];
-
-        $this->assertEquals($var1, stringifyIfIndexArray($var1));
-        $this->assertEquals($var2, stringifyIfIndexArray($var2));
-
-        $result3 = "[1, 4, [7, 10, [13]]]";
-        $this->assertEquals($result3, stringifyIfIndexArray($var3));
     }
 }

@@ -83,27 +83,6 @@ function isAssociativeArray($value): bool
     return $value !== $filtered;
 }
 
-/**
- * @param mixed $value
- * @return mixed
- */
-function stringifyIfIndexArray($value)
-{
-    if (!is_array($value) || isAssociativeArray($value)) {
-        return $value;
-    }
-
-    $iter = function ($array) use (&$iter) {
-        if (!is_array($array)) {
-            return trim(var_export($array, true), "'");
-        }
-
-        $lines = array_map(fn($item) => $iter($item), $array);
-        return "[" . implode(", ", $lines) . "]";
-    };
-
-    return $iter($value);
-}
 
 /**
  * @param mixed $key
@@ -115,9 +94,9 @@ function stringifyIfIndexArray($value)
 function makeStructureRec($key, $value1, $value2 = null, string $operation = 'unchanged'): array
 {
     $iter = function ($value) {
-        return isAssociativeArray($value) ?
+        return is_array($value) ?
         array_map(fn($newKey, $newValue) => makeStructureRec($newKey, $newValue), array_keys($value), $value) :
-        stringifyIfIndexArray($value);
+        $value;
     };
 
     $result1 = $iter($value1);
