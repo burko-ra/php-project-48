@@ -67,7 +67,7 @@ function getValue($diff, string $typeOfValue)
         return getValue2($diff);
     }
 
-    throw new \Exception("Selector must be only value1 or value2, '{$typeOfValue}' given\n");
+    throw new \Exception("'typeOfValue' must be only value1 or value2, '{$typeOfValue}' given\n");
 }
 
 /**
