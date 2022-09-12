@@ -13,7 +13,15 @@ use function Differ\Diff\getOperation;
  */
 function toStringPlain($value): string
 {
-    return is_null($value) ? "null" : var_export($value, true);
+    if (is_array($value)) {
+        return "[complex value]";
+    }
+
+    if (is_null($value)) {
+        return "null";
+    }
+
+    return var_export($value, true);
 }
 
 /**
@@ -26,8 +34,8 @@ function formatDiffPlain(array $operation): string
         $property = $currentPath . getKey($currentValue);
         $operation = getOperation($currentValue);
 
-        $value1 = is_array(getValue1($currentValue)) ? "[complex value]" : toStringPlain(getValue1($currentValue));
-        $value2 = is_array(getValue2($currentValue)) ? "[complex value]" : toStringPlain(getValue2($currentValue));
+        $value1 = toStringPlain(getValue1($currentValue));
+        $value2 = toStringPlain(getValue2($currentValue));
 
         if ($operation === 'added') {
             return array_merge($acc, ["Property '{$property}' was added with value: {$value2}"]);
