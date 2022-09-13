@@ -4,8 +4,6 @@
     "license": "MIT",
     "autoload": {
         "files": [
-            "vendor/docopt/docopt/src/docopt.php",
-            "vendor/symfony/yaml/Yaml.php",
             "src/Differ.php",
             "src/Parsers.php",
             "src/Cli.php",
