@@ -112,45 +112,9 @@ function makeStructureRec($key, string $operation, $value1, $value2 = null): arr
 /**
  * @param array<mixed> $file1
  * @param array<mixed> $file2
+ * @param string $key
  * @return array<mixed>
  */
-// function makeDiff(array $file1, array $file2): array
-// {
-//     $iter = function ($file1, $file2) use (&$iter) {
-//         $keys1 = array_keys($file1);
-//         $keys2 = array_keys($file2);
-//         $keys = array_unique(array_merge($keys1, $keys2));
-//         $sortedKeys = sort($keys, fn ($left, $right) => strcmp($left, $right));
-
-//         $callback = function ($key) use ($iter, $file1, $file2) {
-//             $value1 = $file1[$key] ?? null;
-//             $value2 = $file2[$key] ?? null;
-
-//             if (!array_key_exists($key, $file1)) {
-//                 return makeStructureRec($key, 'added', $value2);
-//             }
-
-//             if (!array_key_exists($key, $file2)) {
-//                 return makeStructureRec($key, 'removed', $value1);
-//             }
-
-//             if ($value1 === $value2) {
-//                 return makeStructureRec($key, 'unchanged', $value1);
-//             }
-
-//             if (!isAssociativeArray($value1) || !isAssociativeArray($value2)) {
-//                 return makeStructureRec($key, 'updated', $value1, $value2);
-//             }
-
-//             return makeStructureIter($key, 'hasChangesInChildren', $iter($value1, $value2));
-//         };
-
-//         return array_map($callback, $sortedKeys);
-//     };
-
-//     return makeStructureIter('', 'hasChangesInChildren', $iter($file1, $file2));
-// }
-
 function makeDiff(array $file1, array $file2, $key = ''): array
 {
     $keys1 = array_keys($file1);
