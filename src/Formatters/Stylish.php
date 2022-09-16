@@ -17,7 +17,7 @@ function toStringStylish($value): string
 }
 
 /**
- * @param array<mixed> $currentValue
+ * @param mixed $currentValue
  * @param int $depth
  * @return string
  */
