@@ -38,7 +38,7 @@ function formatDiffPlain(array $diff): string
         $value2 = toStringPlain(getValue2($currentValue));
 
         if ($operation === 'added') {
-            return array_merge($acc, ["Property '{$property}' was added with value: {$value2}"]);
+            return array_merge($acc, ["Property '{$property}' was added with value: {$value1}"]);
         }
 
         if ($operation === 'removed') {

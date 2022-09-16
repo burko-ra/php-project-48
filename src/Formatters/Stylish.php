@@ -37,7 +37,7 @@ function formatDiffStylish(array $diff): string
             $value2 = $iter($item, 'value2', $depth + 1);
 
             if ($operation === 'added') {
-                return [...$acc, "{$indent}  + {$key}: {$value2}"];
+                return [...$acc, "{$indent}  + {$key}: {$value1}"];
             }
 
             if ($operation === 'removed') {

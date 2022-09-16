@@ -11,9 +11,9 @@ use function Functional\sort;
  * @param string $operation
  * @return array<mixed>
  */
-function makeStructureIter($key, $value1, $value2 = null, string $operation = 'hasChangesInChildren'): array
+function makeStructureIter($key, string $operation, $value1, $value2 = null): array
 {
-    return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'operation' => $operation];
+    return ['key' => $key, 'operation' => $operation, 'value1' => $value1, 'value2' => $value2];
 }
 
 /**
@@ -91,18 +91,22 @@ function isAssociativeArray($value): bool
  * @param string $operation
  * @return array<mixed>
  */
-function makeStructureRec($key, $value1, $value2 = null, string $operation = 'unchanged'): array
+function makeStructureRec($key, string $operation, $value1, $value2 = null): array
 {
     $iter = function ($value) {
         return is_array($value) ?
-        array_map(fn($newKey, $newValue) => makeStructureRec($newKey, $newValue), array_keys($value), $value) :
+        array_map(
+            fn($newKey, $newValue) => makeStructureRec($newKey, 'unchanged', $newValue),
+            array_keys($value),
+            $value
+        ) :
         $value;
     };
 
     $result1 = $iter($value1);
     $result2 = $iter($value2);
 
-    return makeStructureIter($key, $result1, $result2, $operation);
+    return makeStructureIter($key, $operation, $result1, $result2);
 }
 
 /**
@@ -123,26 +127,26 @@ function makeDiff(array $file1, array $file2): array
             $value2 = $file2[$key] ?? null;
 
             if (!array_key_exists($key, $file1)) {
-                return makeStructureRec($key, $value1, $value2, 'added');
+                return makeStructureRec($key, 'added', $value2);
             }
 
             if (!array_key_exists($key, $file2)) {
-                return makeStructureRec($key, $value1, $value2, 'removed');
+                return makeStructureRec($key, 'removed', $value1);
             }
 
             if ($value1 === $value2) {
-                return makeStructureRec($key, $value1, $value2, 'unchanged');
+                return makeStructureRec($key, 'unchanged', $value1);
             }
 
             if (!isAssociativeArray($value1) || !isAssociativeArray($value2)) {
-                return makeStructureRec($key, $value1, $value2, 'updated');
+                return makeStructureRec($key, 'updated', $value1, $value2);
             }
 
-            return makeStructureIter($key, $iter($value1, $value2));
+            return makeStructureIter($key, 'hasChangesInChildren', $iter($value1, $value2));
         };
 
         return array_map($callback, $sortedKeys);
     };
 
-    return makeStructureIter('', $iter($file1, $file2));
+    return makeStructureIter('', 'hasChangesInChildren', $iter($file1, $file2));
 }
