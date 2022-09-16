@@ -31,37 +31,37 @@ class DifferTest extends TestCase
                 'tests/fixtures/file1.json',
                 'tests/fixtures/file2.json',
                 'stylish',
-                'tests/fixtures/gendiffStylish',
+                'tests/fixtures/gendiffStylish.txt',
             ],
             'test YAML-stylish' => [
                 'tests/fixtures/file1.yml',
                 'tests/fixtures/file2.yaml',
                 'stylish',
-                'tests/fixtures/gendiffStylish',
+                'tests/fixtures/gendiffStylish.txt',
             ],
             'test JSON-plain' => [
                 'tests/fixtures/file1.json',
                 'tests/fixtures/file2.json',
                 'plain',
-                'tests/fixtures/gendiffPlain',
+                'tests/fixtures/gendiffPlain.txt',
             ],
             'test YAML-plain' => [
                 'tests/fixtures/file1.yml',
                 'tests/fixtures/file2.yaml',
                 'plain',
-                'tests/fixtures/gendiffPlain',
+                'tests/fixtures/gendiffPlain.txt',
             ],
             'test JSON-json' => [
                 'tests/fixtures/file1.json',
                 'tests/fixtures/file2.json',
                 'json',
-                'tests/fixtures/gendiffJson',
+                'tests/fixtures/gendiffJson.txt',
             ],
             'test YAML-json' => [
                 'tests/fixtures/file1.yml',
                 'tests/fixtures/file2.yaml',
                 'json',
-                'tests/fixtures/gendiffJson',
+                'tests/fixtures/gendiffJson.txt',
             ]
         ];
     }
