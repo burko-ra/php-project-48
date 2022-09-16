@@ -49,7 +49,7 @@ function formatDiffPlain(array $diff): string
             return array_merge($acc, ["Property '{$property}' was updated. From {$value1} to {$value2}"]);
         }
 
-        if ($operation === 'changed') {
+        if ($operation === 'hasChangesInChildren') {
             $children = getValue1($currentValue);
             $newPath = ($depth === 1) ? $property : "{$property}.";
             return array_reduce($children, fn($newAcc, $item) => $iter($item, $newPath, $depth + 1, $newAcc), $acc);

@@ -11,7 +11,7 @@ use function Functional\sort;
  * @param string $operation
  * @return array<mixed>
  */
-function makeStructureIter($key, $value1, $value2 = null, string $operation = 'changed'): array
+function makeStructureIter($key, $value1, $value2 = null, string $operation = 'hasChangesInChildren'): array
 {
     return ['key' => $key, 'value1' => $value1, 'value2' => $value2, 'operation' => $operation];
 }
