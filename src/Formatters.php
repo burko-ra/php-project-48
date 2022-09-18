@@ -2,9 +2,9 @@
 
 namespace Differ\Formatters;
 
-use function Differ\Formatters\Stylish\formatDiffStylish;
-use function Differ\Formatters\Plain\formatDiffPlain;
-use function Differ\Formatters\Json\formatDiffJson;
+use function Differ\Formatters\Stylish\formatDiff as formatDiffStylish;
+use function Differ\Formatters\Plain\formatDiff as formatDiffPlain;
+use function Differ\Formatters\Json\formatDiff as formatDiffJson;
 
 /**
  * @param array<mixed> $diff

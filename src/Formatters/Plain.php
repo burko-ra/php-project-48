@@ -29,7 +29,7 @@ function toStringPlain($value): string
  * @return string
  */
 
-function formatDiffPlain(array $diff): string
+function formatDiff(array $diff): string
 {
     return implode("\n", makePlain(($diff), '', []));
 }

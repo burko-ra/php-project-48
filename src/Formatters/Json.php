@@ -11,7 +11,7 @@ use function Differ\Diff\getOperation;
  * @param array<mixed> $diff
  * @return string
  */
-function formatDiffJson(array $diff): string
+function formatDiff(array $diff): string
 {
     $encoded = json_encode($diff, JSON_PRETTY_PRINT);
     if ($encoded === false) {

@@ -63,7 +63,7 @@ function makeStylish($currentValue, int $depth): string
  * @param array<mixed> $diff
  * @return string
  */
-function formatDiffStylish(array $diff): string
+function formatDiff(array $diff): string
 {
     return makeStylish(getValue1($diff), 1);
 }
