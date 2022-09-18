@@ -53,24 +53,6 @@ function getOperation($diff): string
 }
 
 /**
- * @param array<mixed> $diff
- * @param string $typeOfValue
- * @return mixed
- */
-function getValue($diff, string $typeOfValue)
-{
-    if ($typeOfValue === 'value1') {
-        return getValue1($diff);
-    }
-
-    if ($typeOfValue === 'value2') {
-        return getValue2($diff);
-    }
-
-    throw new \Exception("'typeOfValue' must be only value1 or value2, '{$typeOfValue}' given\n");
-}
-
-/**
  * @param mixed $value
  * @return bool
  */
@@ -82,7 +64,6 @@ function isAssociativeArray($value): bool
     $filtered = array_filter($value, fn($item) => is_int($item), ARRAY_FILTER_USE_KEY);
     return $value !== $filtered;
 }
-
 
 /**
  * @param string $key
