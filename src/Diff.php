@@ -5,20 +5,20 @@ namespace Differ\Diff;
 use function Functional\sort;
 
 /**
- * @param mixed $key
+ * @param string $key
+ * @param string $operation
  * @param mixed $value1
  * @param mixed $value2
- * @param string $operation
  * @return array<mixed>
  */
-function makeStructureIter($key, string $operation, $value1, $value2 = null): array
+function makeStructureIter(string $key, string $operation, $value1, $value2 = null): array
 {
     return ['key' => $key, 'operation' => $operation, 'value1' => $value1, 'value2' => $value2];
 }
 
 /**
  * @param array<mixed> $diff
- * @return mixed
+ * @return string
  */
 function getKey($diff)
 {
@@ -85,13 +85,13 @@ function isAssociativeArray($value): bool
 
 
 /**
- * @param mixed $key
+ * @param string $key
+ * @param string $operation
  * @param mixed $value1
  * @param mixed $value2
- * @param string $operation
  * @return array<mixed>
  */
-function makeStructureRec($key, string $operation, $value1, $value2 = null): array
+function makeStructureRec(string $key, string $operation, $value1, $value2 = null): array
 {
     $iter = function ($value) {
         return is_array($value) ?
