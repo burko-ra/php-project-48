@@ -42,29 +42,28 @@ function formatDiffPlain(array $diff): string
  */
 function makePlain(array $currentValue, string $currentPath, $acc): array
 {
-    $property = $currentPath . getKey($currentValue);
+    $key = getKey($currentValue);
+    $property = $currentPath . $key;
     $operation = getOperation($currentValue);
 
     $value1 = toStringPlain(getValue1($currentValue));
     $value2 = toStringPlain(getValue2($currentValue));
 
-    $propertyWithoutFirstDot = substr($property, 1);
-
     if ($operation === 'added') {
-        return array_merge($acc, ["Property '{$propertyWithoutFirstDot}' was added with value: {$value1}"]);
+        return array_merge($acc, ["Property '{$property}' was added with value: {$value1}"]);
     }
 
     if ($operation === 'removed') {
-        return array_merge($acc, ["Property '{$propertyWithoutFirstDot}' was removed"]);
+        return array_merge($acc, ["Property '{$property}' was removed"]);
     }
 
     if ($operation === 'updated') {
-        return array_merge($acc, ["Property '{$propertyWithoutFirstDot}' was updated. From {$value1} to {$value2}"]);
+        return array_merge($acc, ["Property '{$property}' was updated. From {$value1} to {$value2}"]);
     }
 
     if ($operation === 'hasChangesInChildren') {
         $children = getValue1($currentValue);
-        $newPath = "{$property}.";
+        $newPath = $key === '' ? "{$property}" : "{$property}.";
         return array_reduce($children, fn($newAcc, $item) => makePlain($item, $newPath, $newAcc), $acc);
     }
 
