@@ -11,7 +11,7 @@ use function Differ\Diff\getOperation;
  * @param mixed $value
  * @return string
  */
-function toStringStylish($value): string
+function toString($value): string
 {
     return is_null($value) ? "null" : trim(var_export($value, true), "'");
 }
@@ -21,10 +21,10 @@ function toStringStylish($value): string
  * @param int $depth
  * @return string
  */
-function makeStylish($currentValue, int $depth): string
+function makeStructure($currentValue, int $depth): string
 {
     if (!is_array($currentValue)) {
-        return toStringStylish($currentValue);
+        return toString($currentValue);
     }
 
     $indent = str_repeat('    ', $depth - 1);
@@ -33,8 +33,8 @@ function makeStylish($currentValue, int $depth): string
         $key = getKey($item);
         $operation = getOperation($item);
 
-        $value1 = makeStylish(getValue1($item), $depth + 1);
-        $value2 = makeStylish(getValue2($item), $depth + 1);
+        $value1 = makeStructure(getValue1($item), $depth + 1);
+        $value2 = makeStructure(getValue2($item), $depth + 1);
 
         if ($operation === 'added') {
             return [...$acc, "{$indent}  + {$key}: {$value1}"];
@@ -65,5 +65,5 @@ function makeStylish($currentValue, int $depth): string
  */
 function formatDiff(array $diff): string
 {
-    return makeStylish(getValue1($diff), 1);
+    return makeStructure(getValue1($diff), 1);
 }

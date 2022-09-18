@@ -11,7 +11,7 @@ use function Differ\Diff\getOperation;
  * @param mixed $value
  * @return string
  */
-function toStringPlain($value): string
+function toString($value): string
 {
     if (is_array($value)) {
         return "[complex value]";
@@ -25,29 +25,19 @@ function toStringPlain($value): string
 }
 
 /**
- * @param array<mixed> $diff
- * @return string
- */
-
-function formatDiff(array $diff): string
-{
-    return implode("\n", makePlain(($diff), '', []));
-}
-
-/**
  * @param array<mixed> $currentValue
  * @param string $currentPath
  * @param array<string> $acc
  * @return array<string>
  */
-function makePlain(array $currentValue, string $currentPath, $acc): array
+function makeStructure(array $currentValue, string $currentPath, $acc): array
 {
     $key = getKey($currentValue);
     $property = $currentPath . $key;
     $operation = getOperation($currentValue);
 
-    $value1 = toStringPlain(getValue1($currentValue));
-    $value2 = toStringPlain(getValue2($currentValue));
+    $value1 = toString(getValue1($currentValue));
+    $value2 = toString(getValue2($currentValue));
 
     if ($operation === 'added') {
         return array_merge($acc, ["Property '{$property}' was added with value: {$value1}"]);
@@ -64,8 +54,18 @@ function makePlain(array $currentValue, string $currentPath, $acc): array
     if ($operation === 'hasChangesInChildren') {
         $children = getValue1($currentValue);
         $newPath = $key === '' ? "{$property}" : "{$property}.";
-        return array_reduce($children, fn($newAcc, $item) => makePlain($item, $newPath, $newAcc), $acc);
+        return array_reduce($children, fn($newAcc, $item) => makeStructure($item, $newPath, $newAcc), $acc);
     }
 
     return $acc;
+}
+
+/**
+ * @param array<mixed> $diff
+ * @return string
+ */
+
+function formatDiff(array $diff): string
+{
+    return implode("\n", makeStructure(($diff), '', []));
 }
