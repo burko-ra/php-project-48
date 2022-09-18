@@ -28,35 +28,45 @@ function toStringPlain($value): string
  * @param array<mixed> $diff
  * @return string
  */
+
 function formatDiffPlain(array $diff): string
 {
-    $iter = function ($currentValue, $currentPath, $depth, $acc) use (&$iter) {
-        $property = $currentPath . getKey($currentValue);
-        $operation = getOperation($currentValue);
+    return implode("\n", makePlain(($diff), '', []));
+}
 
-        $value1 = toStringPlain(getValue1($currentValue));
-        $value2 = toStringPlain(getValue2($currentValue));
+/**
+ * @param array<mixed> $currentValue
+ * @param string $currentPath
+ * @param array<string> $acc
+ * @return array<string>
+ */
+function makePlain(array $currentValue, string $currentPath, $acc): array
+{
+    $property = $currentPath . getKey($currentValue);
+    $operation = getOperation($currentValue);
 
-        if ($operation === 'added') {
-            return array_merge($acc, ["Property '{$property}' was added with value: {$value1}"]);
-        }
+    $value1 = toStringPlain(getValue1($currentValue));
+    $value2 = toStringPlain(getValue2($currentValue));
 
-        if ($operation === 'removed') {
-            return array_merge($acc, ["Property '{$property}' was removed"]);
-        }
+    $propertyWithoutFirstDot = substr($property, 1);
 
-        if ($operation === 'updated') {
-            return array_merge($acc, ["Property '{$property}' was updated. From {$value1} to {$value2}"]);
-        }
+    if ($operation === 'added') {
+        return array_merge($acc, ["Property '{$propertyWithoutFirstDot}' was added with value: {$value1}"]);
+    }
 
-        if ($operation === 'hasChangesInChildren') {
-            $children = getValue1($currentValue);
-            $newPath = ($depth === 1) ? $property : "{$property}.";
-            return array_reduce($children, fn($newAcc, $item) => $iter($item, $newPath, $depth + 1, $newAcc), $acc);
-        }
+    if ($operation === 'removed') {
+        return array_merge($acc, ["Property '{$propertyWithoutFirstDot}' was removed"]);
+    }
 
-        return $acc;
-    };
+    if ($operation === 'updated') {
+        return array_merge($acc, ["Property '{$propertyWithoutFirstDot}' was updated. From {$value1} to {$value2}"]);
+    }
 
-    return implode("\n", $iter($diff, '', 1, []));
+    if ($operation === 'hasChangesInChildren') {
+        $children = getValue1($currentValue);
+        $newPath = "{$property}.";
+        return array_reduce($children, fn($newAcc, $item) => makePlain($item, $newPath, $newAcc), $acc);
+    }
+
+    return $acc;
 }
