@@ -11,15 +11,15 @@ use Symfony\Component\Yaml\Yaml;
  */
 function parse(string $content, string $extension): array
 {
-    if ($extension === 'json') {
-        return parseJson($content);
+    switch ($extension) {
+        case 'json':
+            return parseJson($content);
+        case 'yml':
+        case 'yaml':
+            return Yaml::parse($content);
+        default:
+            throw new \Exception("Unknown extension: '{$extension}'");
     }
-
-    if ($extension === 'yml' || $extension === 'yaml') {
-        return Yaml::parse($content);
-    }
-
-    throw new \Exception("Unknown extension: '{$extension}'");
 }
 
 /**
