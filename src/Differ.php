@@ -43,9 +43,9 @@ function readFile(string $pathToFile): string
 function getContentAndParse(string $pathToFile): array
 {
     $realpath = getRealPath($pathToFile);
-    $file = readFile($realpath);
+    $content = readFile($realpath);
     $extension = pathinfo($realpath, PATHINFO_EXTENSION);
-    return parse($file, $extension);
+    return parse($content, $extension);
 }
 
 /**
