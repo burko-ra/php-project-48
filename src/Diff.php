@@ -78,27 +78,27 @@ function makeStructureRec(string $key, string $operation, $value1, $value2 = nul
 }
 
 /**
- * @param array<mixed> $file1
- * @param array<mixed> $file2
+ * @param array<mixed> $content1
+ * @param array<mixed> $content2
  * @param string $key
  * @return array<mixed>
  */
-function makeDiff(array $file1, array $file2, $key = ''): array
+function makeDiff(array $content1, array $content2, $key = ''): array
 {
-    $keys1 = array_keys($file1);
-    $keys2 = array_keys($file2);
+    $keys1 = array_keys($content1);
+    $keys2 = array_keys($content2);
     $keys = array_unique(array_merge($keys1, $keys2));
     $sortedKeys = sort($keys, fn ($left, $right) => strcmp($left, $right));
 
-    $callback = function ($key) use ($file1, $file2) {
-        $value1 = $file1[$key] ?? null;
-        $value2 = $file2[$key] ?? null;
+    $callback = function ($key) use ($content1, $content2) {
+        $value1 = $content1[$key] ?? null;
+        $value2 = $content2[$key] ?? null;
 
-        if (!array_key_exists($key, $file1)) {
+        if (!array_key_exists($key, $content1)) {
             return makeStructureRec($key, 'added', $value2);
         }
 
-        if (!array_key_exists($key, $file2)) {
+        if (!array_key_exists($key, $content2)) {
             return makeStructureRec($key, 'removed', $value1);
         }
 

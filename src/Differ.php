@@ -56,8 +56,8 @@ function getContentAndParse(string $pathToFile): array
  */
 function gendiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish'): string
 {
-    $file1 = getContentAndParse($pathToFile1);
-    $file2 = getContentAndParse($pathToFile2);
-    $diff = makeDiff($file1, $file2);
+    $content1 = getContentAndParse($pathToFile1);
+    $content2 = getContentAndParse($pathToFile2);
+    $diff = makeDiff($content1, $content2);
     return formatDiff($diff, $format);
 }
