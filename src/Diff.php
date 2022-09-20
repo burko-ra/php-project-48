@@ -11,7 +11,7 @@ use function Functional\sort;
  * @param mixed $value2
  * @return array<mixed>
  */
-function makeStructureIter(string $key, string $operation, $value1, $value2 = null): array
+function makeStructure(string $key, string $operation, $value1, $value2 = null): array
 {
     return ['key' => $key, 'operation' => $operation, 'value1' => $value1, 'value2' => $value2];
 }
@@ -74,7 +74,7 @@ function makeStructureRec(string $key, string $operation, $value1, $value2 = nul
     $result1 = $iter($value1);
     $result2 = $iter($value2);
 
-    return makeStructureIter($key, $operation, $result1, $result2);
+    return makeStructure($key, $operation, $result1, $result2);
 }
 
 /**
@@ -115,5 +115,5 @@ function makeDiff(array $file1, array $file2, $key = ''): array
 
     $result = array_map($callback, $sortedKeys);
 
-    return makeStructureIter($key, 'hasChangesInChildren', $result);
+    return makeStructure($key, 'hasChangesInChildren', $result);
 }
