@@ -6,6 +6,7 @@ use function Differ\Diff\getKey;
 use function Differ\Diff\getValue1;
 use function Differ\Diff\getValue2;
 use function Differ\Diff\getOperation;
+use function Differ\Diff\getChildren;
 
 /**
  * @param mixed $value
@@ -65,5 +66,5 @@ function makeStructure($currentValue, int $depth): string
  */
 function formatDiff(array $diff): string
 {
-    return makeStructure(getValue1($diff), 1);
+    return makeStructure(getChildren($diff), 1);
 }

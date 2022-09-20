@@ -33,7 +33,8 @@ function toString($value): string
 function makeStructure(array $currentValue, string $currentPath, $acc): array
 {
     $key = getKey($currentValue);
-    $property = $currentPath . $key;
+    $nodeIsRoot = array_key_exists('children', $currentValue);
+    $property = $nodeIsRoot ? $currentPath : $currentPath . $key;
     $operation = getOperation($currentValue);
 
     $value1 = toString(getValue1($currentValue));
@@ -53,7 +54,7 @@ function makeStructure(array $currentValue, string $currentPath, $acc): array
 
     if ($operation === 'hasChangesInChildren') {
         $children = getValue1($currentValue);
-        $newPath = $key === '' ? "{$property}" : "{$property}.";
+        $newPath = $nodeIsRoot ? "{$property}" : "{$property}.";
         return array_reduce($children, fn($newAcc, $item) => makeStructure($item, $newPath, $newAcc), $acc);
     }
 

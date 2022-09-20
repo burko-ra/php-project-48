@@ -1,5 +1,5 @@
 {
-    "key": "",
+    "key": "root",
     "operation": "hasChangesInChildren",
     "value1": [
         {
@@ -176,5 +176,180 @@
             "value2": null
         }
     ],
-    "value2": null
+    "value2": null,
+    "children": [
+        {
+            "key": "common",
+            "operation": "hasChangesInChildren",
+            "value1": [
+                {
+                    "key": "follow",
+                    "operation": "added",
+                    "value1": false,
+                    "value2": null
+                },
+                {
+                    "key": "setting1",
+                    "operation": "unchanged",
+                    "value1": "Value 1",
+                    "value2": null
+                },
+                {
+                    "key": "setting2",
+                    "operation": "removed",
+                    "value1": 200,
+                    "value2": null
+                },
+                {
+                    "key": "setting3",
+                    "operation": "updated",
+                    "value1": true,
+                    "value2": null
+                },
+                {
+                    "key": "setting4",
+                    "operation": "added",
+                    "value1": "blah blah",
+                    "value2": null
+                },
+                {
+                    "key": "setting5",
+                    "operation": "added",
+                    "value1": [
+                        {
+                            "key": "key5",
+                            "operation": "unchanged",
+                            "value1": "value5",
+                            "value2": null
+                        }
+                    ],
+                    "value2": null
+                },
+                {
+                    "key": "setting6",
+                    "operation": "hasChangesInChildren",
+                    "value1": [
+                        {
+                            "key": "doge",
+                            "operation": "hasChangesInChildren",
+                            "value1": [
+                                {
+                                    "key": "wow",
+                                    "operation": "updated",
+                                    "value1": "",
+                                    "value2": "so much"
+                                }
+                            ],
+                            "value2": null
+                        },
+                        {
+                            "key": "key",
+                            "operation": "unchanged",
+                            "value1": "value",
+                            "value2": null
+                        },
+                        {
+                            "key": "ops",
+                            "operation": "added",
+                            "value1": "vops",
+                            "value2": null
+                        }
+                    ],
+                    "value2": null
+                }
+            ],
+            "value2": null
+        },
+        {
+            "key": "group1",
+            "operation": "hasChangesInChildren",
+            "value1": [
+                {
+                    "key": "baz",
+                    "operation": "updated",
+                    "value1": "bas",
+                    "value2": "bars"
+                },
+                {
+                    "key": "foo",
+                    "operation": "unchanged",
+                    "value1": "bar",
+                    "value2": null
+                },
+                {
+                    "key": "nest",
+                    "operation": "updated",
+                    "value1": [
+                        {
+                            "key": "key",
+                            "operation": "unchanged",
+                            "value1": "value",
+                            "value2": null
+                        }
+                    ],
+                    "value2": "str"
+                }
+            ],
+            "value2": null
+        },
+        {
+            "key": "group2",
+            "operation": "removed",
+            "value1": [
+                {
+                    "key": "abc",
+                    "operation": "unchanged",
+                    "value1": 12345,
+                    "value2": null
+                },
+                {
+                    "key": "deep",
+                    "operation": "unchanged",
+                    "value1": [
+                        {
+                            "key": "id",
+                            "operation": "unchanged",
+                            "value1": 45,
+                            "value2": null
+                        }
+                    ],
+                    "value2": null
+                }
+            ],
+            "value2": null
+        },
+        {
+            "key": "group3",
+            "operation": "added",
+            "value1": [
+                {
+                    "key": "deep",
+                    "operation": "unchanged",
+                    "value1": [
+                        {
+                            "key": "id",
+                            "operation": "unchanged",
+                            "value1": [
+                                {
+                                    "key": "number",
+                                    "operation": "unchanged",
+                                    "value1": 45,
+                                    "value2": null
+                                }
+                            ],
+                            "value2": null
+                        }
+                    ],
+                    "value2": null
+                },
+                {
+                    "key": "fee",
+                    "operation": "unchanged",
+                    "value1": 100500,
+                    "value2": null
+                }
+            ],
+            "value2": null
+        }
+    ]
 }

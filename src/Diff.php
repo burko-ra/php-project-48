@@ -17,6 +17,31 @@ function makeStructure(string $key, string $operation, $value1, $value2 = null):
 }
 
 /**
+ * @param string $key
+ * @param string $operation
+ * @param mixed $value1
+ * @param mixed $value2
+ * @return array<mixed>
+ */
+function makeStructureRec(string $key, string $operation, $value1, $value2 = null): array
+{
+    $iter = function ($value) {
+        return is_array($value) ?
+        array_map(
+            fn($newKey, $newValue) => makeStructureRec($newKey, 'unchanged', $newValue),
+            array_keys($value),
+            $value
+        ) :
+        $value;
+    };
+
+    $result1 = $iter($value1);
+    $result2 = $iter($value2);
+
+    return makeStructure($key, $operation, $result1, $result2);
+}
+
+/**
  * @param array<mixed> $diff
  * @return string
  */
@@ -53,37 +78,20 @@ function getOperation($diff): string
 }
 
 /**
- * @param string $key
- * @param string $operation
- * @param mixed $value1
- * @param mixed $value2
- * @return array<mixed>
+ * @param array<mixed> $root
+ * @return mixed
  */
-function makeStructureRec(string $key, string $operation, $value1, $value2 = null): array
+function getChildren($root)
 {
-    $iter = function ($value) {
-        return is_array($value) ?
-        array_map(
-            fn($newKey, $newValue) => makeStructureRec($newKey, 'unchanged', $newValue),
-            array_keys($value),
-            $value
-        ) :
-        $value;
-    };
-
-    $result1 = $iter($value1);
-    $result2 = $iter($value2);
-
-    return makeStructure($key, $operation, $result1, $result2);
+    return $root['children'];
 }
 
 /**
  * @param array<mixed> $content1
  * @param array<mixed> $content2
- * @param string $key
  * @return array<mixed>
  */
-function makeDiff(array $content1, array $content2, $key = ''): array
+function makeNodes(array $content1, array $content2): array
 {
     $keys1 = array_keys($content1);
     $keys2 = array_keys($content2);
@@ -110,10 +118,27 @@ function makeDiff(array $content1, array $content2, $key = ''): array
             return makeStructureRec($key, 'updated', $value1, $value2);
         }
 
-        return makeDiff($value1, $value2, $key);
+        $result = makeNodes($value1, $value2);
+
+        return makeStructure($key, 'hasChangesInChildren', $result);
     };
 
-    $result = array_map($callback, $sortedKeys);
+    return array_map($callback, $sortedKeys);
+}
 
-    return makeStructure($key, 'hasChangesInChildren', $result);
+/**
+ * @param array<mixed> $content1
+ * @param array<mixed> $content2
+ * @return array<mixed>
+ */
+function makeDiff($content1, $content2)
+{
+    $children = makeNodes($content1, $content2);
+    return [
+        'key' => 'root',
+        'operation' => 'hasChangesInChildren',
+        'value1' => $children,
+        'value2' => null,
+        'children' => $children
+    ];
 }
