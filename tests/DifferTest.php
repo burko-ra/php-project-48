@@ -9,6 +9,15 @@ use function Differ\Differ\gendiff;
 class DifferTest extends TestCase
 {
     /**
+     * @param string $pathToFile
+     * @return string
+     */
+    private function getFullPath(string $pathToFile): string
+    {
+        return __DIR__ . "/fixtures/" . $pathToFile;
+    }
+
+    /**
      * @param string $file1
      * @param string $file2
      * @param string $format
@@ -16,10 +25,14 @@ class DifferTest extends TestCase
      * @return void
      * @dataProvider gendiffProvider
      */
-    public function testGendiff($file1, $file2, $format, $fileResult): void
+    public function testGendiff(string $file1, string $file2, string $format, string $fileResult): void
     {
-        $this->assertStringEqualsFile($fileResult, gendiff($file1, $file2, $format));
+        $fixture1 = $this->getFullPath($file1);
+        $fixture2 = $this->getFullPath($file2);
+        $fixtureResult = $this->getFullPath($fileResult);
+        $this->assertStringEqualsFile($fixtureResult, gendiff($fixture1, $fixture2, $format));
     }
+
 
     /**
      * @return array<string, array<int, string>>
@@ -28,40 +41,40 @@ class DifferTest extends TestCase
     {
         return [
             'test JSON-stylish' => [
-                'tests/fixtures/file1.json',
-                'tests/fixtures/file2.json',
+                'file1.json',
+                'file2.json',
                 'stylish',
-                'tests/fixtures/gendiffStylish.txt',
+                'gendiffStylish.txt',
             ],
             'test YAML-stylish' => [
-                'tests/fixtures/file1.yml',
-                'tests/fixtures/file2.yaml',
+                'file1.yml',
+                'file2.yaml',
                 'stylish',
-                'tests/fixtures/gendiffStylish.txt',
+                'gendiffStylish.txt',
             ],
             'test JSON-plain' => [
-                'tests/fixtures/file1.json',
-                'tests/fixtures/file2.json',
+                'file1.json',
+                'file2.json',
                 'plain',
-                'tests/fixtures/gendiffPlain.txt',
+                'gendiffPlain.txt',
             ],
             'test YAML-plain' => [
-                'tests/fixtures/file1.yml',
-                'tests/fixtures/file2.yaml',
+                'file1.yml',
+                'file2.yaml',
                 'plain',
-                'tests/fixtures/gendiffPlain.txt',
+                'gendiffPlain.txt',
             ],
             'test JSON-json' => [
-                'tests/fixtures/file1.json',
-                'tests/fixtures/file2.json',
+                'file1.json',
+                'file2.json',
                 'json',
-                'tests/fixtures/gendiffJson.txt',
+                'gendiffJson.txt',
             ],
             'test YAML-json' => [
-                'tests/fixtures/file1.yml',
-                'tests/fixtures/file2.yaml',
+                'file1.yml',
+                'file2.yaml',
                 'json',
-                'tests/fixtures/gendiffJson.txt',
+                'gendiffJson.txt',
             ]
         ];
     }
