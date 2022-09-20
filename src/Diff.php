@@ -53,19 +53,6 @@ function getOperation($diff): string
 }
 
 /**
- * @param mixed $value
- * @return bool
- */
-function isAssociativeArray($value): bool
-{
-    if (!is_array($value)) {
-        return false;
-    }
-    $filtered = array_filter($value, fn($item) => is_int($item), ARRAY_FILTER_USE_KEY);
-    return $value !== $filtered;
-}
-
-/**
  * @param string $key
  * @param string $operation
  * @param mixed $value1
@@ -119,7 +106,7 @@ function makeDiff(array $file1, array $file2, $key = ''): array
             return makeStructureRec($key, 'unchanged', $value1);
         }
 
-        if (!isAssociativeArray($value1) || !isAssociativeArray($value2)) {
+        if (!is_array($value1) || !is_array($value2)) {
             return makeStructureRec($key, 'updated', $value1, $value2);
         }
 
