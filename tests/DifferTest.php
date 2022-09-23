@@ -12,7 +12,7 @@ class DifferTest extends TestCase
      * @param string $pathToFile
      * @return string
      */
-    private function getFullPath(string $pathToFile): string
+    private function getFullPathForFixtures(string $pathToFile): string
     {
         return __DIR__ . "/fixtures/" . $pathToFile;
     }
@@ -27,9 +27,9 @@ class DifferTest extends TestCase
      */
     public function testGendiff(string $file1, string $file2, string $format, string $fileResult): void
     {
-        $fixture1 = $this->getFullPath($file1);
-        $fixture2 = $this->getFullPath($file2);
-        $fixtureResult = $this->getFullPath($fileResult);
+        $fixture1 = $this->getFullPathForFixtures($file1);
+        $fixture2 = $this->getFullPathForFixtures($file2);
+        $fixtureResult = $this->getFullPathForFixtures($fileResult);
         $this->assertStringEqualsFile($fixtureResult, gendiff($fixture1, $fixture2, $format));
     }
 
