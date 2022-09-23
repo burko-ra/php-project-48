@@ -91,7 +91,7 @@ function getChildren($root)
  * @param array<mixed> $content2
  * @return array<mixed>
  */
-function makeNodes(array $content1, array $content2): array
+function makeTree(array $content1, array $content2): array
 {
     $keys1 = array_keys($content1);
     $keys2 = array_keys($content2);
@@ -118,7 +118,7 @@ function makeNodes(array $content1, array $content2): array
             return makeStructureRec($key, 'updated', $value1, $value2);
         }
 
-        $result = makeNodes($value1, $value2);
+        $result = makeTree($value1, $value2);
 
         return makeStructure($key, 'hasChangesInChildren', $result);
     };
@@ -133,7 +133,7 @@ function makeNodes(array $content1, array $content2): array
  */
 function makeDiff($content1, $content2)
 {
-    $children = makeNodes($content1, $content2);
+    $children = makeTree($content1, $content2);
     return [
         'key' => 'root',
         'operation' => 'hasChangesInChildren',
