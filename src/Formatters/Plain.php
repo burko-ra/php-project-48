@@ -6,6 +6,7 @@ use function Differ\Diff\getKey;
 use function Differ\Diff\getValue1;
 use function Differ\Diff\getValue2;
 use function Differ\Diff\getOperation;
+use function Differ\Diff\getChildren;
 
 /**
  * @param mixed $value
@@ -32,10 +33,15 @@ function toString($value): string
  */
 function makeStructure(array $currentValue, string $currentPath, $acc): array
 {
-    $key = getKey($currentValue);
-    $nodeIsRoot = array_key_exists('children', $currentValue);
-    $property = $nodeIsRoot ? $currentPath : $currentPath . $key;
     $operation = getOperation($currentValue);
+    $key = getKey($currentValue);
+    $property = $currentPath . $key;
+
+    if ($operation === 'hasChangesInChildren') {
+        $children = getChildren($currentValue);
+        $newPath = "{$property}.";
+        return array_reduce($children, fn($newAcc, $item) => makeStructure($item, $newPath, $newAcc), $acc);
+    }
 
     $value1 = toString(getValue1($currentValue));
     $value2 = toString(getValue2($currentValue));
@@ -52,12 +58,6 @@ function makeStructure(array $currentValue, string $currentPath, $acc): array
         return array_merge($acc, ["Property '{$property}' was updated. From {$value1} to {$value2}"]);
     }
 
-    if ($operation === 'hasChangesInChildren') {
-        $children = getValue1($currentValue);
-        $newPath = $nodeIsRoot ? "{$property}" : "{$property}.";
-        return array_reduce($children, fn($newAcc, $item) => makeStructure($item, $newPath, $newAcc), $acc);
-    }
-
     return $acc;
 }
 
@@ -65,8 +65,9 @@ function makeStructure(array $currentValue, string $currentPath, $acc): array
  * @param array<mixed> $diff
  * @return string
  */
-
 function formatDiff(array $diff): string
 {
-    return implode("\n", makeStructure(($diff), '', []));
+    $children = getChildren($diff);
+    $lines = array_reduce($children, fn($acc, $item) => makeStructure($item, '', $acc), []);
+    return implode("\n", $lines);
 }

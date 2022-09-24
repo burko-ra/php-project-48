@@ -11,7 +11,7 @@ use function Functional\sort;
  * @param mixed $value2
  * @return array<mixed>
  */
-function makeStructure(string $key, string $operation, $value1, $value2 = null): array
+function makeStructureLeaf(string $key, string $operation, $value1, $value2 = null): array
 {
     return ['key' => $key, 'operation' => $operation, 'value1' => $value1, 'value2' => $value2];
 }
@@ -19,26 +19,12 @@ function makeStructure(string $key, string $operation, $value1, $value2 = null):
 /**
  * @param string $key
  * @param string $operation
- * @param mixed $value1
- * @param mixed $value2
+ * @param array<mixed> $children
  * @return array<mixed>
  */
-function makeStructureRec(string $key, string $operation, $value1, $value2 = null): array
+function makeStructureNode(string $key, string $operation, array $children): array
 {
-    $iter = function ($value) {
-        return is_array($value) ?
-        array_map(
-            fn($newKey, $newValue) => makeStructureRec($newKey, 'unchanged', $newValue),
-            array_keys($value),
-            $value
-        ) :
-        $value;
-    };
-
-    $result1 = $iter($value1);
-    $result2 = $iter($value2);
-
-    return makeStructure($key, $operation, $result1, $result2);
+    return ['key' => $key, 'operation' => $operation, 'children' => $children];
 }
 
 /**
@@ -103,24 +89,24 @@ function makeTree(array $content1, array $content2): array
         $value2 = $content2[$key] ?? null;
 
         if (!array_key_exists($key, $content1)) {
-            return makeStructureRec($key, 'added', $value2);
+            return makeStructureLeaf($key, 'added', $value2);
         }
 
         if (!array_key_exists($key, $content2)) {
-            return makeStructureRec($key, 'removed', $value1);
+            return makeStructureLeaf($key, 'removed', $value1);
         }
 
         if ($value1 === $value2) {
-            return makeStructureRec($key, 'unchanged', $value1);
+            return makeStructureLeaf($key, 'unchanged', $value1);
         }
 
         if (!is_array($value1) || !is_array($value2)) {
-            return makeStructureRec($key, 'updated', $value1, $value2);
+            return makeStructureLeaf($key, 'updated', $value1, $value2);
         }
 
         $result = makeTree($value1, $value2);
 
-        return makeStructure($key, 'hasChangesInChildren', $result);
+        return makeStructureNode($key, 'hasChangesInChildren', $result);
     };
 
     return array_map($callback, $sortedKeys);
@@ -135,10 +121,7 @@ function makeDiff($content1, $content2)
 {
     $children = makeTree($content1, $content2);
     return [
-        'key' => 'root',
-        'operation' => 'hasChangesInChildren',
-        'value1' => $children,
-        'value2' => null,
+        'operation' => 'root',
         'children' => $children
     ];
 }

@@ -9,12 +9,43 @@ use function Differ\Diff\getOperation;
 use function Differ\Diff\getChildren;
 
 /**
- * @param mixed $value
+ * @param int $depth
  * @return string
  */
-function toString($value): string
+function getIndent(int $depth): string
 {
-    return is_null($value) ? "null" : trim(var_export($value, true), "'");
+    return str_repeat('    ', $depth - 1);
+}
+
+/**
+ * @param array<string> $lines
+ * @param string $indent
+ * @return string
+ */
+function wrapLines(array $lines, string $indent): string
+{
+    return "{\n" . implode("\n", $lines) . "\n" . $indent . "}";
+}
+
+/**
+ * @param mixed $item
+ * @param int $depth
+ * @return string
+ */
+function toString($item, int $depth): string
+{
+    if (!is_array($item)) {
+        return is_null($item) ? "null" : trim(var_export($item, true), "'");
+    }
+
+    $indent = getIndent($depth);
+
+    $lines = array_map(function ($key, $value) use ($indent, $depth) {
+        $stringValue = toString($value, $depth + 1);
+        return "{$indent}    {$key}: {$stringValue}";
+    }, array_keys($item), $item);
+
+    return wrapLines($lines, $indent);
 }
 
 /**
@@ -24,18 +55,19 @@ function toString($value): string
  */
 function makeStructure($currentValue, int $depth): string
 {
-    if (!is_array($currentValue)) {
-        return toString($currentValue);
-    }
-
-    $indent = str_repeat('    ', $depth - 1);
+    $indent = getIndent($depth);
 
     $callback = function ($acc, $item) use ($indent, $depth) {
         $key = getKey($item);
         $operation = getOperation($item);
 
-        $value1 = makeStructure(getValue1($item), $depth + 1);
-        $value2 = makeStructure(getValue2($item), $depth + 1);
+        if ($operation === 'hasChangesInChildren') {
+            $children = makeStructure(getChildren($item), $depth + 1);
+            return [...$acc, "{$indent}    {$key}: {$children}"];
+        }
+
+        $value1 = toString(getValue1($item), $depth + 1);
+        $value2 = toString(getValue2($item), $depth + 1);
 
         if ($operation === 'added') {
             return [...$acc, "{$indent}  + {$key}: {$value1}"];
@@ -55,9 +87,9 @@ function makeStructure($currentValue, int $depth): string
 
         return [...$acc, "{$indent}    {$key}: {$value1}"];
     };
-
     $lines = array_reduce($currentValue, $callback, []);
-    return "{\n" . implode("\n", $lines) . "\n" . $indent . "}";
+
+    return wrapLines($lines, $indent);
 }
 
 /**
