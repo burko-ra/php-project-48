@@ -6,25 +6,25 @@ use function Functional\sort;
 
 /**
  * @param string $key
- * @param string $operation
+ * @param string $type
  * @param mixed $value1
  * @param mixed $value2
  * @return array<mixed>
  */
-function makeStructureLeaf(string $key, string $operation, $value1, $value2 = null): array
+function makeStructureLeaf(string $key, string $type, $value1, $value2 = null): array
 {
-    return ['key' => $key, 'operation' => $operation, 'value1' => $value1, 'value2' => $value2];
+    return ['key' => $key, 'type' => $type, 'value1' => $value1, 'value2' => $value2];
 }
 
 /**
  * @param string $key
- * @param string $operation
+ * @param string $type
  * @param array<mixed> $children
  * @return array<mixed>
  */
-function makeStructureNode(string $key, string $operation, array $children): array
+function makeStructureNode(string $key, string $type, array $children): array
 {
-    return ['key' => $key, 'operation' => $operation, 'children' => $children];
+    return ['key' => $key, 'type' => $type, 'children' => $children];
 }
 
 /**
@@ -58,9 +58,9 @@ function getValue2($diff)
  * @param array<mixed> $diff
  * @return string
  */
-function getOperation($diff): string
+function getType($diff): string
 {
-    return $diff['operation'];
+    return $diff['type'];
 }
 
 /**
@@ -106,7 +106,7 @@ function makeTree(array $content1, array $content2): array
 
         $result = makeTree($value1, $value2);
 
-        return makeStructureNode($key, 'hasChangesInChildren', $result);
+        return makeStructureNode($key, 'nested', $result);
     };
 
     return array_map($callback, $sortedKeys);
@@ -121,7 +121,7 @@ function makeDiff($content1, $content2)
 {
     $children = makeTree($content1, $content2);
     return [
-        'operation' => 'root',
+        'type' => 'root',
         'children' => $children
     ];
 }

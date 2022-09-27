@@ -1,43 +1,43 @@
 {
-    "operation": "root",
+    "type": "root",
     "children": [
         {
             "key": "common",
-            "operation": "hasChangesInChildren",
+            "type": "nested",
             "children": [
                 {
                     "key": "follow",
-                    "operation": "added",
+                    "type": "added",
                     "value1": false,
                     "value2": null
                 },
                 {
                     "key": "setting1",
-                    "operation": "unchanged",
+                    "type": "unchanged",
                     "value1": "Value 1",
                     "value2": null
                 },
                 {
                     "key": "setting2",
-                    "operation": "removed",
+                    "type": "removed",
                     "value1": 200,
                     "value2": null
                 },
                 {
                     "key": "setting3",
-                    "operation": "updated",
+                    "type": "updated",
                     "value1": true,
                     "value2": null
                 },
                 {
                     "key": "setting4",
-                    "operation": "added",
+                    "type": "added",
                     "value1": "blah blah",
                     "value2": null
                 },
                 {
                     "key": "setting5",
-                    "operation": "added",
+                    "type": "added",
                     "value1": {
                         "key5": "value5"
                     },
@@ -45,15 +45,15 @@
                 },
                 {
                     "key": "setting6",
-                    "operation": "hasChangesInChildren",
+                    "type": "nested",
                     "children": [
                         {
                             "key": "doge",
-                            "operation": "hasChangesInChildren",
+                            "type": "nested",
                             "children": [
                                 {
                                     "key": "wow",
-                                    "operation": "updated",
+                                    "type": "updated",
                                     "value1": "",
                                     "value2": "so much"
                                 }
@@ -61,13 +61,13 @@
                         },
                         {
                             "key": "key",
-                            "operation": "unchanged",
+                            "type": "unchanged",
                             "value1": "value",
                             "value2": null
                         },
                         {
                             "key": "ops",
-                            "operation": "added",
+                            "type": "added",
                             "value1": "vops",
                             "value2": null
                         }
@@ -77,23 +77,23 @@
         },
         {
             "key": "group1",
-            "operation": "hasChangesInChildren",
+            "type": "nested",
             "children": [
                 {
                     "key": "baz",
-                    "operation": "updated",
+                    "type": "updated",
                     "value1": "bas",
                     "value2": "bars"
                 },
                 {
                     "key": "foo",
-                    "operation": "unchanged",
+                    "type": "unchanged",
                     "value1": "bar",
                     "value2": null
                 },
                 {
                     "key": "nest",
-                    "operation": "updated",
+                    "type": "updated",
                     "value1": {
                         "key": "value"
                     },
@@ -103,7 +103,7 @@
         },
         {
             "key": "group2",
-            "operation": "removed",
+            "type": "removed",
             "value1": {
                 "abc": 12345,
                 "deep": {
@@ -114,7 +114,7 @@
         },
         {
             "key": "group3",
-            "operation": "added",
+            "type": "added",
             "value1": {
                 "deep": {
                     "id": {

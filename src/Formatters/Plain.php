@@ -5,7 +5,7 @@ namespace Differ\Formatters\Plain;
 use function Differ\Diff\getKey;
 use function Differ\Diff\getValue1;
 use function Differ\Diff\getValue2;
-use function Differ\Diff\getOperation;
+use function Differ\Diff\getType;
 use function Differ\Diff\getChildren;
 
 /**
@@ -31,30 +31,30 @@ function toString($value): string
  * @param array<string> $acc
  * @return array<string>
  */
-function makeStructure(array $currentValue, string $currentPath, $acc): array
+function makeFormat(array $currentValue, string $currentPath, $acc): array
 {
-    $operation = getOperation($currentValue);
+    $type = getType($currentValue);
     $key = getKey($currentValue);
     $property = $currentPath . $key;
 
-    if ($operation === 'hasChangesInChildren') {
+    if ($type === 'nested') {
         $children = getChildren($currentValue);
         $newPath = "{$property}.";
-        return array_reduce($children, fn($newAcc, $item) => makeStructure($item, $newPath, $newAcc), $acc);
+        return array_reduce($children, fn($newAcc, $item) => makeFormat($item, $newPath, $newAcc), $acc);
     }
 
     $value1 = toString(getValue1($currentValue));
     $value2 = toString(getValue2($currentValue));
 
-    if ($operation === 'added') {
+    if ($type === 'added') {
         return array_merge($acc, ["Property '{$property}' was added with value: {$value1}"]);
     }
 
-    if ($operation === 'removed') {
+    if ($type === 'removed') {
         return array_merge($acc, ["Property '{$property}' was removed"]);
     }
 
-    if ($operation === 'updated') {
+    if ($type === 'updated') {
         return array_merge($acc, ["Property '{$property}' was updated. From {$value1} to {$value2}"]);
     }
 
@@ -68,6 +68,6 @@ function makeStructure(array $currentValue, string $currentPath, $acc): array
 function formatDiff(array $diff): string
 {
     $children = getChildren($diff);
-    $lines = array_reduce($children, fn($acc, $item) => makeStructure($item, '', $acc), []);
+    $lines = array_reduce($children, fn($acc, $item) => makeFormat($item, '', $acc), []);
     return implode("\n", $lines);
 }
