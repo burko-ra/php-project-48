@@ -34,6 +34,12 @@ function toString($value): string
 function makeFormat(array $currentValue, string $currentPath, $acc): array
 {
     $type = getType($currentValue);
+
+    if ($type === 'root') {
+        $children = getChildren($currentValue);
+        return array_reduce($children, fn($newAcc, $item) => makeFormat($item, '', $newAcc), $acc);
+    }
+
     $key = getKey($currentValue);
     $property = $currentPath . $key;
 
@@ -67,7 +73,6 @@ function makeFormat(array $currentValue, string $currentPath, $acc): array
  */
 function formatDiff(array $diff): string
 {
-    $children = getChildren($diff);
-    $lines = array_reduce($children, fn($acc, $item) => makeFormat($item, '', $acc), []);
+    $lines = makeFormat($diff, '', []);
     return implode("\n", $lines);
 }
