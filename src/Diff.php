@@ -11,7 +11,7 @@ use function Functional\sort;
  * @param mixed $value2
  * @return array<mixed>
  */
-function makeStructureLeaf(string $key, string $type, $value1, $value2 = null): array
+function makeLeaf(string $key, string $type, $value1, $value2 = null): array
 {
     return ['key' => $key, 'type' => $type, 'value1' => $value1, 'value2' => $value2];
 }
@@ -22,7 +22,7 @@ function makeStructureLeaf(string $key, string $type, $value1, $value2 = null): 
  * @param array<mixed> $children
  * @return array<mixed>
  */
-function makeStructureNode(string $key, string $type, array $children): array
+function makeNode(string $key, string $type, array $children): array
 {
     return ['key' => $key, 'type' => $type, 'children' => $children];
 }
@@ -89,24 +89,24 @@ function makeTree(array $content1, array $content2): array
         $value2 = $content2[$key] ?? null;
 
         if (!array_key_exists($key, $content1)) {
-            return makeStructureLeaf($key, 'added', $value2);
+            return makeLeaf($key, 'added', $value2);
         }
 
         if (!array_key_exists($key, $content2)) {
-            return makeStructureLeaf($key, 'removed', $value1);
+            return makeLeaf($key, 'removed', $value1);
         }
 
         if ($value1 === $value2) {
-            return makeStructureLeaf($key, 'unchanged', $value1);
+            return makeLeaf($key, 'unchanged', $value1);
         }
 
         if (!is_array($value1) || !is_array($value2)) {
-            return makeStructureLeaf($key, 'updated', $value1, $value2);
+            return makeLeaf($key, 'updated', $value1, $value2);
         }
 
         $result = makeTree($value1, $value2);
 
-        return makeStructureNode($key, 'nested', $result);
+        return makeNode($key, 'nested', $result);
     };
 
     return array_map($callback, $sortedKeys);
